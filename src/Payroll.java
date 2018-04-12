@@ -16,10 +16,14 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -568,11 +572,30 @@ public class Payroll extends Application {
         Text title = new Text(150, 30, "Emplyoee Database, by Matthew Vastarelli");
         Font f1 = Font.font ("Arial", FontWeight.BOLD, FontPosture.REGULAR, 20);
         Pane greating = new Pane();
+        Button btn = new Button("Log in");
+        VBox vbox = new VBox(10);
+        HBox hbox = new HBox();
+       
         
-        greating.getChildren().addAll(title);
         setProps(title, f1, Color.BLACK);
+        //Button event handler
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Login");
+            }
+        });
         
-        Scene sn = new Scene( greating, 750, 500 );        // Set window size.
+        btn.setPrefWidth(300);
+        btn.setPrefHeight(40);
+        
+        vbox.setSpacing(10);
+        vbox.setPadding(new Insets(20,20,20,20));
+        vbox.getChildren().addAll(btn);
+        
+        greating.getChildren().addAll(title, vbox);
+        
+        Scene sn = new Scene(greating, 750, 500 );        // Set window size.
         primaryStage.setTitle("Emplyoee Database");
         primaryStage.setScene(sn);
         primaryStage.show();
