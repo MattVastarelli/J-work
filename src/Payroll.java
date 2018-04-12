@@ -11,9 +11,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.*;
-import java.security.*;
 
-public class Payroll {
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+import java.security.*;
+//U: mvast
+//P: pass
+public class Payroll extends Application {
 	
 	static employee currentUser;			//The index of the current employee using the system
 	public static int currentID = -1;		//Id of the current person using the system
@@ -543,6 +548,13 @@ public class Payroll {
 		}
 		
 	System.out.println("\nThank you for using the Emplyoee Database.");
+	}
+	//------------------------------------------------------------------------------------------------------
+	//Start method for JavaFx
+	@Override
+	public void start(Stage arg0) throws Exception {
+		
+		
 	}
 }
 //-------------------------------------------------------------------------------------------------------
