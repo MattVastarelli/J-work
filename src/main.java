@@ -2,12 +2,13 @@
  * Matthew Vastarelli
  * main.java
  */
-import java.util.InputMismatchException;
+/*import java.util.InputMismatchException;
 
 public class main {
 
 	public static void main(String[] args)
  {
+		//launch(args);
 			System.out.println("Welcome to the Emplyoee Database, by Matthew Vastarelli");
 			//Payroll menu
 			try {
@@ -18,4 +19,4 @@ public class main {
 				ex.printStackTrace(System.out);
 			}	
 	}
-}
+}*/
