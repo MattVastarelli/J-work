@@ -18,7 +18,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 //U: mvast
 //P: pass
 public class Payroll extends Application {
@@ -556,31 +562,36 @@ public class Payroll extends Application {
 	//Start method for JavaFx
 	@Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
+        primaryStage.setTitle("Emplyoee Database");
         
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
+        //main menu/font page
+        Text title = new Text(150, 30, "Emplyoee Database, by Matthew Vastarelli");
+        Font f1 = Font.font ("Arial", FontWeight.BOLD, FontPosture.REGULAR, 20);
+        Pane greating = new Pane();
+        
+        greating.getChildren().addAll(title);
+        setProps(title, f1, Color.BLACK);
+        
+        Scene sn = new Scene( greating, 750, 500 );        // Set window size.
+        primaryStage.setTitle("Emplyoee Database");
+        primaryStage.setScene(sn);
         primaryStage.show();
     }
 	//------------------------------------------------------------------------------------------------------
 	//
+	void setProps ( Text t, Font f, Color c ){
+        t.setFont(f);
+        t.setFill(c);
+    }
+	//------------------------------------------------------------------------------------------------------
+	//Main
 	public static void main(String[] args)
 	 {
 		launch(args);
-		System.out.println("Welcome to the Emplyoee Database, by Matthew Vastarelli");
+		//System.out.println("Welcome to the Emplyoee Database, by Matthew Vastarelli");
 		//Payroll menu
 		try {
-			Payroll.doMenu();
+			//Payroll.doMenu();
 		}
 		catch(InputMismatchException ex) {
 			System.out.println("Error: I/O Mismatch.");
