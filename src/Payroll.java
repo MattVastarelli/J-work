@@ -57,11 +57,11 @@ public class Payroll extends Application {
 	static FileInputStream Fin = null;
 	static FileOutputStream Fout = null;
      
-     //Login
+     
      
 	//------------------------------------------------------------------------------------------------------
 	//Handles the reading and creation of the database file if there is none
-	public void fileHandler() {
+	public static void fileHandler() {
 		
 		try {
 			Fin = new FileInputStream(dataFile); 			//Database file
@@ -112,7 +112,7 @@ public class Payroll extends Application {
 	}
 	//-------------------------------------------------------------------------------------------------------
 	//Login to the system 
-	private  void doLogin() {
+	private static void doLogin() {
 		
 		String login;
 		String password;
@@ -156,7 +156,7 @@ public class Payroll extends Application {
 	}
 	//-------------------------------------------------------------------------------------------------------
 	//Checks to see if passwords match
-	public boolean passMatch(byte[] pass, String input) {
+	public static boolean passMatch(byte[] pass, String input) {
 		byte[] bArray1;
 		MessageDigest digest1 = null;
 		
@@ -189,7 +189,7 @@ public class Payroll extends Application {
 	}
 	//-------------------------------------------------------------------------------------------------------
 	//Add an employee
-	public void newEmplyoee() {
+	public static void newEmplyoee() {
 		if(employeeList.isEmpty())
 			isBoss = true;
 	
@@ -263,7 +263,7 @@ public class Payroll extends Application {
 	//-------------------------------------------------------------------------------------------------------
 	//Prompts for a password twice and compares the hashes of the passwords if they match the byte array is
 	//Returned else the function prompts until two matching passwords are entered.
-	public byte[] getNewPassword() {
+	public static byte[] getNewPassword() {
 		byte[] bArray1;
 		byte[] bArray2;
 		String input;
@@ -317,7 +317,7 @@ public class Payroll extends Application {
 	}
 	//-------------------------------------------------------------------------------------------------------
 	//Prints out a list of current employees to the boss or the users data if they are not the boss
-	public void listEmplyoee() {
+	public static void listEmplyoee() {
 		if(isBoss) {
 			System.out.println("Employees in the database");
 			for (employee emplyoeeSearch: employeeList) 
@@ -335,7 +335,7 @@ public class Payroll extends Application {
 	}
 	//-------------------------------------------------------------------------------------------------------
 	//Allows the boss to terminate an employee or have an employee quit
-	public void terminateEmplyoee() {
+	public static void terminateEmplyoee() {
 		int firedID = 0;
 		employee terminate;
 		int counter = 0;
@@ -372,7 +372,7 @@ public class Payroll extends Application {
 	}
 	//-------------------------------------------------------------------------------------------------------
 	//Facilitates the payment of the employee's salaries based on pay type
-	public void payEmplyoee() {
+	public static void payEmplyoee() {
 		if (isBoss) {
 			System.out.println("Paying employees");
 			for(employee emplyoeeSearch: employeeList) {
@@ -396,7 +396,7 @@ public class Payroll extends Application {
 	}
 	//------------------------------------------------------------------------------------------------------
 	//Allows the boss to change employee data
-	public  void changeData() {
+	public static void changeData() {
 		int command = 0;
 		String change;
 		String garbage;
@@ -451,7 +451,7 @@ public class Payroll extends Application {
 	}
 	//------------------------------------------------------------------------------------------------------
 	//Prints the employee arrayList
-	public void print() {
+	public static void print() {
 		try {
 			Fout = new FileOutputStream(dataFile);
 		} catch (FileNotFoundException e) {
@@ -476,7 +476,7 @@ public class Payroll extends Application {
 	}
 	//------------------------------------------------------------------------------------------------------
 	//Prints the payroll to the payroll file
-	public void printPayroll() {
+	public static void printPayroll() {
 		try {
 			payrollFile.createNewFile();
 		} catch (IOException e1) {
@@ -503,7 +503,7 @@ public class Payroll extends Application {
 	}
 	//-------------------------------------------------------------------------------------------------------
 	//Menu for the program
-	public void doMenu() { 
+	public static void doMenu() { 
 		fileHandler();
 		int command = 1; 	//Input command
 		String garbage;		//Eats the new line char
@@ -570,14 +570,15 @@ public class Payroll extends Application {
 	@Override
     public void start(Stage primaryStage) {
        
-		//GUI Login
+
 		Text title = new Text(223, 25, "Emplyoee Database, by Matthew Vastarelli");
 		Font f1 = Font.font ("Arial", FontWeight.BOLD, FontPosture.REGULAR, 15);
+		
+// -------------------  GUI Login Start -------------------------------------
 		Pane greating = new Pane();
 		Button btnLogin = new Button("Log in");
 		VBox vbox = new VBox(10);
-			     
-		primaryStage.setTitle("Emplyoee Database");
+	
 		setProps(title, f1, Color.BLACK);
 		//Button event handler
 		btnLogin.setOnAction(new EventHandler<ActionEvent>() {
@@ -596,43 +597,40 @@ public class Payroll extends Application {
 			        
 		greating.getChildren().addAll(title, vbox);
 			        
-		Scene sn = new Scene(greating, 750, 500 );       
-		primaryStage.setTitle("Emplyoee Database");
-		//GUI Login End
+		Scene sn = new Scene(greating, 750, 500 );     
+// -------------------  GUI login Start -------------------------------------
 		
-		// GUI Welcome Start
-		primaryStage.setTitle("Welcome");
-        setProps(title, f1, Color.BLACK);
-        Pane greatingW = new Pane();
-        Button btnW = new Button("Enter");
-        VBox vboxW = new VBox(10);
+// -------------------  GUI Welcome Start -------------------------------------
+       setProps(title, f1, Color.BLACK);
+       Pane greatingW = new Pane();
+       Button btnW = new Button("Enter");
+       VBox vboxW = new VBox(10);
          
-        btnW.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent event) {
-        		System.out.println("Welcome");
-        		
-	      }
-	   });
+       btnW.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+        	System.out.println("Welcome");
+	     }
+	  });
           
-       btnW.setPrefWidth(300);
-       btnW.setPrefHeight(40);
+      btnW.setPrefWidth(300);
+      btnW.setPrefHeight(40);
  	        
-       vboxW.setSpacing(10);
-       vboxW.setPadding(new Insets(250,20,20,225));
-       vboxW.getChildren().addAll(btnW);
+      vboxW.setSpacing(10);
+      vboxW.setPadding(new Insets(250,20,20,225));
+      vboxW.getChildren().addAll(btnW);
  	        
- 	   greatingW.getChildren().addAll(title, vboxW);
+ 	  greatingW.getChildren().addAll(title, vboxW);
  	        
- 	   Scene snw = new Scene(greatingW, 750, 500 );        
+ 	  Scene snw = new Scene(greatingW, 750, 500 );        
  	  primaryStage.setTitle("Emplyoee Database");
  	  primaryStage.setScene(snw);
  	  primaryStage.show();    
- 	  //GUI Welcome end
+// -------------------  GUI Welcome End -------------------------------------
     }
 	//------------------------------------------------------------------------------------------------------
 	//
-	public void setProps ( Text t, Font f, Color c ){
+	public static void setProps ( Text t, Font f, Color c ){
         t.setFont(f);
         t.setFill(c);
     }
@@ -644,7 +642,7 @@ public class Payroll extends Application {
 	}
 	//------------------------------------------------------------------------------------------------------
 	//Main
-	public void main(String[] args)
+	public static void main(String[] args)
 	 {
 		launch(args);
 		//System.out.println("Welcome to the Emplyoee Database, by Matthew Vastarelli");
