@@ -69,6 +69,24 @@ public abstract  class employee {
 			return employeeID;
 		}
 		//------------------------------------------------------------------------------
+		//Gets the employee's ID as a String
+		public String getIDString() {
+			String sID;
+			
+			sID = Integer.toString(employeeID);
+			
+			return sID;
+		}
+		//------------------------------------------------------------------------------
+		//Gets the employee's pay as a string
+		public String getPayString() {
+			String sID;
+					
+			sID = Double.toString(baseSalary);
+					
+			return sID;
+		}
+		//------------------------------------------------------------------------------
 		//Gets the employee's password
 		public byte[] getPass() {
 			return password;

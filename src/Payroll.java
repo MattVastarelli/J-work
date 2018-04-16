@@ -119,7 +119,7 @@ public class Payroll extends Application {
 	private static Button okButton;
 	//A screen for the non-Boss to view his own data and possibly quit. This screen should display
 	//a photograph.
-	private static Scene thisEmpScene;
+	//private static Scene thisEmpScene;
 	private static VBox thisEmpPane;
 	private static Button thisEmpBackButton;
 	private static Label thisEmpIdLabel;
@@ -715,9 +715,40 @@ public class Payroll extends Application {
 // -------------------  GUI Boss End --------------------------------------------
 
 // -------------------  GUI Employee Start ---------------------------------------
+		thisEmpPane = new VBox(20);
+		thisEmpIdLabel = new Label("ID Number: ");
+		thisEmpId = new Label("");
+		thisEmpLoginLabel = new Label("Login Name: ");
+		thisEmpLogin = new Label ("");
+		thisEmpNameLabel = new Label("Name: ");
+		thisEmpName = new Label ("");
+		thisEmpSalaryLabel = new Label("Salary: ");
+		thisEmpSalary = new Label ("");
+		thisEmpDateLabel = new Label("Date Hired: ");
+		thisEmpDate = new Label ("");
 		
-
+		/*
+		thisEmpId.setText(currentUser.getIDString());
+		thisEmpLogin.setText(currentUser.getLoginName());
+		thisEmpName.setText(currentUser.employeeName);
+		thisEmpSalary.setText(currentUser.getPayString());
+		thisEmpDate.setText(currentUser.hiringTime);*/
 		
+		thisEmpQuitButton = new Button("Quit Job");
+		thisEmpBackButton = new Button("Exit ");
+		/*thisEmpBackButton.setOnAction(e -> {System.exit(1);});
+		thisEmpQuitButton.setOnAction(e -> {
+			
+			if (currentUser.getID() != 0) {
+				employeeList.remove(currentUser);
+				System.exit(1);
+			}
+		});*/
+		
+		thisEmpPane.getChildren().addAll(thisEmpBackButton,thisEmpIdLabel, thisEmpId, thisEmpLoginLabel, thisEmpLogin, 
+				thisEmpNameLabel, thisEmpName, thisEmpSalaryLabel, thisEmpSalary, thisEmpDateLabel, thisEmpDate, thisEmpQuitButton);
+		
+		Scene empScene = new Scene (thisEmpPane, 800, 600);
 // -------------------  GUI Employee End --------------------------------------------
 // -------------------  GUI New Employee Start ---------------------------------------
 		
@@ -741,7 +772,7 @@ public class Payroll extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				System.out.println("Login");
-				primaryStage.setScene(bossScene);
+				primaryStage.setScene(empScene);
 				primaryStage.show();
 			}
 		});
