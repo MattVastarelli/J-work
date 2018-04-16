@@ -2,6 +2,7 @@
  * Matthew Vastarelli
  * Payroll.Java
  */
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -642,12 +643,59 @@ public class Payroll extends Application {
 	System.out.println("\nThank you for using the Emplyoee Database.");
 	}
 	//------------------------------------------------------------------------------------------------------
-	//Start method for JavaFx
+	//Start method 
 	@Override
     public void start(Stage primaryStage) {
 
-		buildGUI(primaryStage);
-    }
+		try {
+			Fin = new FileInputStream(dataFile); 			//Database file
+			ObjectInputStream ObjInstream = new ObjectInputStream(Fin);	//Object input stream
+			
+			int id;				//ID
+			String login;		//Employee login
+			double salary; 		//Employee pay
+			String date;		//Date of hire
+			String name;		//Employee name
+			String type;		//Hourly or Salaried
+			byte[] password;	//Emplyoee's password
+			
+			while(true) {
+				
+				id = (Integer) ObjInstream.readObject();
+				login = (String) ObjInstream.readObject();
+				salary = (Double) ObjInstream.readObject();
+				type = (String) ObjInstream.readObject();
+				date = (String) ObjInstream.readObject();
+				name = (String) ObjInstream.readObject();
+				password = (byte[]) ObjInstream.readObject();
+				
+				if(type.equals("Salaried")) {
+					Salaried newEmplyoee = new Salaried (id, login, type, salary, date, name, password);
+			        employeeList.add(newEmplyoee);
+				}
+				else {
+					Hourly newEmplyoee = new Hourly (id, login, type, salary, date, name, password);
+					employeeList.add(newEmplyoee);
+				}
+			}
+		} //Try
+		catch (FileNotFoundException ex) {
+			System.out.println("Error: No Database file, Creating one now.");
+			try {
+				dataFile.createNewFile();
+				newEmplyoee();
+			} catch (IOException e) {
+				System.out.println("Error: IOException");
+			}
+		}
+		catch (IOException e) {
+		} catch (ClassNotFoundException e) {
+			System.out.println("Error: Class not found");
+		}
+		finally{
+			buildGUI(primaryStage);
+		}
+	}
 	//------------------------------------------------------------------------------------------------------
 	//
 	public static void setProps ( Text t, Font f, Color c ){
@@ -821,7 +869,7 @@ public class Payroll extends Application {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("Quit");
-	 
+	        	//write and quit the system
 		     }
 		  });
 
@@ -905,14 +953,14 @@ public class Payroll extends Application {
 		 
 // -------------------  GUI Employee End --------------------------------------------
 	}
-	//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
 	public static void updateTable() {
 		olist.clear();
 		olist.addAll(employeeList);
 		t1.setItems(olist);
 	}
-	//------------------------------------------------------------------------------------------------------
-	//Main
+//------------------------------------------------------------------------------------------------------
+//Main
 	public static void main(String[] args)
 	 {
 		launch(args);
