@@ -578,39 +578,38 @@ public class Payroll extends Application {
 		Font f1 = Font.font ("Arial", FontWeight.BOLD, FontPosture.REGULAR, 15);
 		
 // -------------------  GUI Login Start -------------------------------------
-	/*	Pane greating = new Pane();
-		Button btnLogin = new Button("Log in");
-		VBox vbox = new VBox(10);
 	
-		setProps(title, f1, Color.BLACK);
-		//Button event handler
-		btnLogin.setOnAction(new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent event1) {
-			System.out.println("Login");
-		}
-			 });
-			        
-		btnLogin.setPrefWidth(300);
-		btnLogin.setPrefHeight(40);
-			        
-		vbox.setSpacing(10);
-		vbox.setPadding(new Insets(250,20,20,225));
-		vbox.getChildren().addAll(btnLogin);
-			        
-		greating.getChildren().addAll(title, vbox);
-			        
-		Scene sn = new Scene(greating, 750, 500 ); */
-		Scene loginScene;
-		VBox loginPane;
-		Label loginLabel;
-		Button loginButton;
-		TextField loginTF;
-		Label pwLabel;
-		PasswordField pwTF;
+		VBox loginPane = new VBox(25);
+		Label loginLabel = new Label("Username:");
+		Button loginButton = new Button("Log In");
+		TextField loginTF = new TextField();
+		Label pwLabel = new Label("Password:");
+		PasswordField pwTF = new PasswordField();
 		
+		loginPane.getChildren().addAll(loginLabel, loginTF, pwLabel, pwTF, loginButton);
 		
-// -------------------  GUI login Start -------------------------------------
+		Scene sn = new Scene(loginPane, 750, 500 );
+		
+		loginButton.setOnAction(new EventHandler<ActionEvent>() {
+		        @Override
+		        public void handle(ActionEvent event) {
+		        	System.out.println("Login");
+			     }
+			  });
+		
+// -------------------  GUI login Start --------------------------------------
+		
+// -------------------  GUI Boss Start ---------------------------------------
+		
+
+		
+// -------------------  GUI Boss End -----------------------------------------
+
+// -------------------  GUI Employee Start ---------------------------------------
+		
+
+		
+// -------------------  GUI Employee End -----------------------------------------
 		
 // -------------------  GUI Welcome Start -------------------------------------
        setProps(title, f1, Color.BLACK);
