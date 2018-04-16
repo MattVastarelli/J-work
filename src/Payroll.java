@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.security.*;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,7 +24,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -60,8 +65,76 @@ public class Payroll extends Application {
 	static FileInputStream Fin = null;
 	static FileOutputStream Fout = null;
      
-     
-     
+    // ----------------------------- GUI Start --------------------------------------------------------
+	private static Scene loginScene;
+	private static VBox loginPane;
+	private static Label loginLabel;
+	private static Button loginButton;
+	private static TextField loginTF;
+	private static Label pwLabel;
+	private static PasswordField pwTF;
+	//A Boss screen with a scrollable text area to display the list of employees and buttons to create
+	//a new employee, make changes, or do the payroll. After doing the payroll, go to screen 5.
+	//private static Scene bossScene;
+	private static Button newEmpButton;
+	private static Button changeEmpButton;
+	private static Button payrollButton;
+	private static Button quitButton;
+	private static VBox bossPane;
+	private static TableView t1;
+	private static ObservableList<employee> olist;
+	//A screen for creating new Employees. Create the employee and return to screen 2 when the
+	//Boss clicks one of the radio buttons to select the employee type.
+	private static Scene newEmpScene;
+	private static VBox newEmpPane;
+	private static Label newLoginLabel;
+	private static TextField newLoginField;
+	private static Label newPasswordLabel;
+	private static PasswordField newPasswordField;
+	private static Label confirmNewPasswordLabel;
+	private static PasswordField confirmNewPasswordField;
+	private static Label newSalaryLabel;
+	private static TextField newSalaryField;
+	private static Label newNameLabel;
+	private static TextField newNameField;
+	private static Button submitNewEmployee;
+	private static Button newEmpBackButton;
+	//A screen for the Boss to change an Employee�s name or salary or fire him. Return to screen
+	//2 when the Boss clicks �OK�.
+	private static Scene changeEmpScene;
+	private static VBox changeEmpPane;
+	private static Button changeEmpBackButton;
+	private static Label employeeIdLabel;
+	private static TextField employeeIdField;
+	private static Label changeNameLabel;
+	private static TextField changeNameField;
+	private static Label changeSalaryLabel;
+	private static TextField changeSalaryField;
+	private static Button submitChangedEmployee;
+	private static Button fireEmployee;
+	//A screen to display the payroll data. This should have a scrollable text area for the payroll
+	//output and a single �OK� button that takes control back to screen 2.
+	private static Scene payrollScene;
+	private static VBox payrollPane;
+	private static Button okButton;
+	//A screen for the non-Boss to view his own data and possibly quit. This screen should display
+	//a photograph.
+	private static Scene thisEmpScene;
+	private static VBox thisEmpPane;
+	private static Button thisEmpBackButton;
+	private static Label thisEmpIdLabel;
+	private static Label thisEmpId;
+	private static Label thisEmpLoginLabel;
+	private static Label thisEmpLogin;
+	private static Label thisEmpNameLabel;
+	private static Label thisEmpName;
+	private static Label thisEmpSalaryLabel;
+	private static Label thisEmpSalary;
+	private static Label thisEmpDateLabel;
+	private static Label thisEmpDate;
+	private static Button thisEmpQuitButton;
+    // ----------------------------- GUI end ------------------------------------------------------------
+	
 	//------------------------------------------------------------------------------------------------------
 	//Handles the reading and creation of the database file if there is none
 	public static void fileHandler() {
@@ -577,31 +650,67 @@ public class Payroll extends Application {
 		Text title = new Text(223, 25, "Emplyoee Database, by Matthew Vastarelli");
 		Font f1 = Font.font ("Arial", FontWeight.BOLD, FontPosture.REGULAR, 15);
 		
-// -------------------  GUI Login Start -------------------------------------
-	
-		VBox loginPane = new VBox(25);
-		Label loginLabel = new Label("Username:");
-		Button loginButton = new Button("Log In");
-		TextField loginTF = new TextField();
-		Label pwLabel = new Label("Password:");
-		PasswordField pwTF = new PasswordField();
-		
-		loginPane.getChildren().addAll(loginLabel, loginTF, pwLabel, pwTF, loginButton);
-		
-		Scene sn = new Scene(loginPane, 750, 500 );
-		
-		loginButton.setOnAction(new EventHandler<ActionEvent>() {
-		        @Override
-		        public void handle(ActionEvent event) {
-		        	System.out.println("Login");
-			     }
-			  });
-		
-// -------------------  GUI login Start --------------------------------------
+
 		
 // -------------------  GUI Boss Start ---------------------------------------
 		
+		newEmpButton = new Button("Create New Employee");
+		changeEmpButton = new Button("Change Employee Information");
+		payrollButton = new Button ("Create Payroll");
+		quitButton = new Button ("Exit Program");
+		bossPane = new VBox(20);
+		t1 = new TableView();
+		ObservableList<employee> olist;	
+		
+		newEmpButton.setOnAction(new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent event) {
+	        	System.out.println("New employee");
+	        	
+		     }
+		  });
+		changeEmpButton.setOnAction(new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent event) {
+	        	System.out.println("Change");
 
+		     }
+		  });
+		payrollButton.setOnAction(new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent event) {
+	        	System.out.println("Payroll");
+
+		     }
+		  });
+		quitButton.setOnAction(new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent event) {
+	        	System.out.println("Quit");
+	 
+		     }
+		  });
+
+		
+		TableColumn idCol = new TableColumn("ID");
+		TableColumn logCol = new TableColumn("Login");
+		TableColumn nameCol = new TableColumn("Name");
+		TableColumn salCol = new TableColumn("Salary");
+		TableColumn datCol = new TableColumn("Hiring Date");
+		t1.getColumns().addAll(idCol, logCol, nameCol, salCol, datCol);
+		
+		/*idCol.setCellValueFactory(new PropertyValueFactory<employee, String>("id"));
+		logCol.setCellValueFactory(new PropertyValueFactory<employee, String>("login"));
+		nameCol.setCellValueFactory(new PropertyValueFactory<employee, String>("name"));
+		salCol.setCellValueFactory(new PropertyValueFactory<employee, Float>("salary"));
+		datCol.setCellValueFactory(new PropertyValueFactory<employee, Date>("date"));
+		
+		olist = FXCollections.observableArrayList();
+		updateTable();*/
+		
+		bossPane.getChildren().addAll(newEmpButton, changeEmpButton, payrollButton, quitButton, t1);
+
+		Scene bossScene = new Scene(bossPane, 800, 600);
 		
 // -------------------  GUI Boss End -----------------------------------------
 
@@ -610,8 +719,30 @@ public class Payroll extends Application {
 
 		
 // -------------------  GUI Employee End -----------------------------------------
+// -------------------  GUI Login Start --------------------------------------
 		
-// -------------------  GUI Welcome Start -------------------------------------
+		loginPane = new VBox(25);
+		loginLabel = new Label("Username:");
+		loginButton = new Button("Log In");
+		loginTF = new TextField();
+		pwLabel = new Label("Password:");
+		pwTF = new PasswordField();
+					
+		loginPane.getChildren().addAll(loginLabel, loginTF, pwLabel, pwTF, loginButton);
+					
+		Scene sn = new Scene(loginPane, 750, 500 );
+					
+		loginButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				System.out.println("Login");
+				primaryStage.setScene(bossScene);
+				primaryStage.show();
+			}
+		});
+					
+// -------------------  GUI login End --------------------------------------------	
+// -------------------  GUI Welcome Start ----------------------------------------
        setProps(title, f1, Color.BLACK);
        Pane greatingW = new Pane();
        Button btnW = new Button("Enter");
@@ -652,6 +783,11 @@ public class Payroll extends Application {
 	public void bulidGUI() {
 		
 		
+	}
+	public static void updateTable() {
+		olist.clear();
+		olist.addAll(employeeList);
+		t1.setItems(olist);
 	}
 	//------------------------------------------------------------------------------------------------------
 	//Main
