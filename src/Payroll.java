@@ -646,37 +646,6 @@ public class Payroll extends Application {
 	@Override
     public void start(Stage primaryStage) {
 
-// -------------------  GUI Welcome Start ----------------------------------------
-		/*Text title = new Text(223, 25, "Emplyoee Database, by Matthew Vastarelli");
-		Font f1 = Font.font ("Arial", FontWeight.BOLD, FontPosture.REGULAR, 15);
-		setProps(title, f1, Color.BLACK);
-		Pane greatingW = new Pane();
-	    Button btnW = new Button("Enter");
-	    VBox vboxW = new VBox(10);
-	          
-	    btnW.setPrefWidth(300);
-	    btnW.setPrefHeight(40);
-	 	        
-	    vboxW.setSpacing(10);
-	    vboxW.setPadding(new Insets(250,20,20,225));
-	    vboxW.getChildren().addAll(btnW);
-	 	        
-	 	greatingW.getChildren().addAll(title, vboxW);
-	 	        
-	 	Scene snw = new Scene(greatingW, 750, 500 );        
-	 	primaryStage.setTitle("Emplyoee Database");
-	 	primaryStage.setScene(snw);
-	 	primaryStage.show();   
-	 	
-	    btnW.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override
-		    public void handle(ActionEvent event) {
-		    	System.out.println("Welcome");
-		    	buildGUI(primaryStage);
-		    	}
-		    });*/
-// -------------------  GUI Welcome End ---------------------------------------------
-
 		buildGUI(primaryStage);
     }
 	//------------------------------------------------------------------------------------------------------
@@ -760,6 +729,58 @@ public class Payroll extends Application {
 								
 // -------------------  GUI New Employee End -----------------------------------------
 // -------------------  GUI Change start --------------------------------------------
+		changeEmpPane = new VBox(20);
+		changeEmpBackButton = new Button("Return Without Saving");
+		employeeIdLabel = new Label("Enter ID of Employee to change");
+		employeeIdField = new TextField();
+		changeNameLabel = new Label("New Employee Name");
+		changeNameField = new TextField();
+		changeSalaryLabel = new Label("New Employee Salary");
+		changeSalaryField = new TextField();
+		submitChangedEmployee = new Button("Submit Employee Changes");
+		fireEmployee = new Button("Fire Employee");
+		
+		changeEmpBackButton.setOnAction(new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent event) {
+	        	System.out.println("Back");
+	        	primaryStage.setScene(bossScene);
+	        	primaryStage.show();
+		     }
+		  });
+		/*submitChangedEmployee.setOnAction(e -> {
+			// Get employee, make changes
+			updateTable();
+			st.setScene(bossScene);
+		});*/
+		submitChangedEmployee.setOnAction(new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent event) {
+	        	System.out.println("Change");
+	        	primaryStage.setScene(bossScene);
+	        	primaryStage.show();
+		     }
+		  });
+		
+		/*fireEmployee.setOnAction(e -> {
+			// Get employee, remove from list
+			updateTable();
+			st.setScene(bossScene);
+		});*/
+		fireEmployee.setOnAction(new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent event) {
+	        	System.out.println("Fire Employee");
+	        	primaryStage.setScene(bossScene);
+	        	primaryStage.show();
+		     }
+		  });
+		
+		changeEmpPane.getChildren().addAll(changeEmpBackButton, employeeIdLabel, employeeIdField,
+				changeNameLabel, changeNameField, changeSalaryLabel, changeSalaryField, 
+				submitChangedEmployee, fireEmployee);
+		
+		changeEmpScene = new Scene(changeEmpPane, 800, 600);
 		
 // -------------------  GUI Change end ----------------------------------------------
 // -------------------  GUI Boss Start -----------------------------------------------
@@ -784,14 +805,16 @@ public class Payroll extends Application {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("Change");
-
+	        	primaryStage.setScene(changeEmpScene);
+	        	primaryStage.show();
 		     }
 		  });
 		payrollButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("Payroll");
-
+	        	primaryStage.setScene(payrollScene);
+	        	primaryStage.show();
 		     }
 		  });
 		quitButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -824,6 +847,24 @@ public class Payroll extends Application {
 		bossScene = new Scene(bossPane, 800, 600);
 		
 // -------------------  GUI Boss End --------------------------------------------
+// -------------------  GUI Payroll Start --------------------------------------------
+		payrollPane = new VBox(20);
+		okButton = new Button("OK");
+				
+		okButton.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override
+	    public void handle(ActionEvent event) {
+	    	System.out.println("Payed");
+			primaryStage.setScene(bossScene);
+			primaryStage.show();
+			}
+		});
+				
+		// Displays payroll
+		payrollPane.getChildren().addAll(okButton,t1);
+				
+		payrollScene = new Scene(payrollPane, 800, 600);
+// -------------------  GUI Payroll End ---------------------------------------------
 	
 // -------------------  GUI Employee Start ---------------------------------------
 		
