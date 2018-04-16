@@ -66,7 +66,7 @@ public class Payroll extends Application {
 	static FileOutputStream Fout = null;
      
     // ----------------------------- GUI Start --------------------------------------------------------
-	private static Scene loginScene;
+	private static Scene snLog;
 	private static VBox loginPane;
 	private static Label loginLabel;
 	private static Button loginButton;
@@ -75,7 +75,7 @@ public class Payroll extends Application {
 	private static PasswordField pwTF;
 	//A Boss screen with a scrollable text area to display the list of employees and buttons to create
 	//a new employee, make changes, or do the payroll. After doing the payroll, go to screen 5.
-	//private static Scene bossScene;
+	private static Scene bossScene;
 	private static Button newEmpButton;
 	private static Button changeEmpButton;
 	private static Button payrollButton;
@@ -119,7 +119,7 @@ public class Payroll extends Application {
 	private static Button okButton;
 	//A screen for the non-Boss to view his own data and possibly quit. This screen should display
 	//a photograph.
-	//private static Scene thisEmpScene;
+	private static Scene empScene;
 	private static VBox thisEmpPane;
 	private static Button thisEmpBackButton;
 	private static Label thisEmpIdLabel;
@@ -645,14 +645,124 @@ public class Payroll extends Application {
 	//Start method for JavaFx
 	@Override
     public void start(Stage primaryStage) {
-       
 
-		Text title = new Text(223, 25, "Emplyoee Database, by Matthew Vastarelli");
+// -------------------  GUI Welcome Start ----------------------------------------
+		/*Text title = new Text(223, 25, "Emplyoee Database, by Matthew Vastarelli");
 		Font f1 = Font.font ("Arial", FontWeight.BOLD, FontPosture.REGULAR, 15);
-		
+		setProps(title, f1, Color.BLACK);
+		Pane greatingW = new Pane();
+	    Button btnW = new Button("Enter");
+	    VBox vboxW = new VBox(10);
+	          
+	    btnW.setPrefWidth(300);
+	    btnW.setPrefHeight(40);
+	 	        
+	    vboxW.setSpacing(10);
+	    vboxW.setPadding(new Insets(250,20,20,225));
+	    vboxW.getChildren().addAll(btnW);
+	 	        
+	 	greatingW.getChildren().addAll(title, vboxW);
+	 	        
+	 	Scene snw = new Scene(greatingW, 750, 500 );        
+	 	primaryStage.setTitle("Emplyoee Database");
+	 	primaryStage.setScene(snw);
+	 	primaryStage.show();   
+	 	
+	    btnW.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override
+		    public void handle(ActionEvent event) {
+		    	System.out.println("Welcome");
+		    	buildGUI(primaryStage);
+		    	}
+		    });*/
+// -------------------  GUI Welcome End ---------------------------------------------
 
+		buildGUI(primaryStage);
+    }
+	//------------------------------------------------------------------------------------------------------
+	//
+	public static void setProps ( Text t, Font f, Color c ){
+        t.setFont(f);
+        t.setFill(c);
+    }
+	//------------------------------------------------------------------------------------------------------
+	//
+	public static void buildGUI(Stage primaryStage) {
+// -------------------  GUI Login Start ----------------------------------------------
 		
-// -------------------  GUI Boss Start ---------------------------------------
+		loginPane = new VBox(25);
+		loginLabel = new Label("Username:");
+		loginButton = new Button("Log In");
+		loginTF = new TextField();
+		pwLabel = new Label("Password:");
+		pwTF = new PasswordField();
+						
+		loginPane.getChildren().addAll(loginLabel, loginTF, pwLabel, pwTF, loginButton);
+							
+		snLog = new Scene(loginPane, 750, 500 );
+		
+		primaryStage.setScene(snLog);
+		primaryStage.show();
+		
+		loginButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				System.out.println("Login");
+				primaryStage.setScene(bossScene); //This ust be changed to check output
+				primaryStage.show();
+				}
+			});
+							
+// -------------------  GUI login End --------------------------------------------			
+// -------------------  GUI New Employee Start ---------------------------------------
+		
+		newEmpPane = new VBox(20);
+		newEmpBackButton = new Button ("Return Without Saving");
+		newLoginLabel = new Label("Login:");
+		newLoginField = new TextField();
+		newPasswordLabel = new Label("Password:");
+		newPasswordField = new PasswordField();
+		confirmNewPasswordLabel = new Label ("Confirm Password:");
+		confirmNewPasswordField = new PasswordField();
+		newNameLabel = new Label("Name:");
+		newNameField = new TextField();
+		newSalaryLabel = new Label("Salary:");
+		newSalaryField = new TextField();
+		submitNewEmployee = new Button("Submit");
+					
+		newEmpBackButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+		    public void handle(ActionEvent event) {
+		        System.out.println("Back to boss");
+		        primaryStage.setScene(bossScene);
+			  }
+			});
+					
+		employee toAdd;
+		String inp1 = "";
+		byte[] inp2;
+		int inp3; 
+		String inp4 = "";
+		String inp5 = "";
+				
+				/*
+				submitNewEmployee.setOnAction(e -> {
+					//Compile and add employee
+					updateTable();
+					st.setScene(bossScene);
+				});*/
+					
+		newEmpPane.getChildren().addAll(newEmpBackButton, newLoginLabel, newLoginField, newPasswordLabel, 
+				newPasswordField, confirmNewPasswordLabel, confirmNewPasswordField, newNameLabel, newNameField, 
+				newSalaryLabel, newSalaryField, submitNewEmployee);
+		
+		newEmpScene = new Scene (newEmpPane, 800, 600);
+								
+// -------------------  GUI New Employee End -----------------------------------------
+// -------------------  GUI Change start --------------------------------------------
+		
+// -------------------  GUI Change end ----------------------------------------------
+// -------------------  GUI Boss Start -----------------------------------------------
 		
 		newEmpButton = new Button("Create New Employee");
 		changeEmpButton = new Button("Change Employee Information");
@@ -666,7 +776,8 @@ public class Payroll extends Application {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("New employee");
-	        	
+	        	primaryStage.setScene(newEmpScene);
+	        	primaryStage.show();
 		     }
 		  });
 		changeEmpButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -710,11 +821,12 @@ public class Payroll extends Application {
 		
 		bossPane.getChildren().addAll(newEmpButton, changeEmpButton, payrollButton, quitButton, t1);
 
-		Scene bossScene = new Scene(bossPane, 800, 600);
+		bossScene = new Scene(bossPane, 800, 600);
 		
 // -------------------  GUI Boss End --------------------------------------------
-
+	
 // -------------------  GUI Employee Start ---------------------------------------
+		
 		thisEmpPane = new VBox(20);
 		thisEmpIdLabel = new Label("ID Number: ");
 		thisEmpId = new Label("");
@@ -748,78 +860,11 @@ public class Payroll extends Application {
 		thisEmpPane.getChildren().addAll(thisEmpBackButton,thisEmpIdLabel, thisEmpId, thisEmpLoginLabel, thisEmpLogin, 
 				thisEmpNameLabel, thisEmpName, thisEmpSalaryLabel, thisEmpSalary, thisEmpDateLabel, thisEmpDate, thisEmpQuitButton);
 		
-		Scene empScene = new Scene (thisEmpPane, 800, 600);
+		empScene = new Scene (thisEmpPane, 800, 600);
+		 
 // -------------------  GUI Employee End --------------------------------------------
-// -------------------  GUI New Employee Start ---------------------------------------
-		
-
-		
-// -------------------  GUI New Employee End -----------------------------------------
-// -------------------  GUI Login Start ----------------------------------------------
-		
-		loginPane = new VBox(25);
-		loginLabel = new Label("Username:");
-		loginButton = new Button("Log In");
-		loginTF = new TextField();
-		pwLabel = new Label("Password:");
-		pwTF = new PasswordField();
-					
-		loginPane.getChildren().addAll(loginLabel, loginTF, pwLabel, pwTF, loginButton);
-					
-		Scene sn = new Scene(loginPane, 750, 500 );
-					
-		loginButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				System.out.println("Login");
-				primaryStage.setScene(empScene);
-				primaryStage.show();
-			}
-		});
-					
-// -------------------  GUI login End --------------------------------------------	
-// -------------------  GUI Welcome Start ----------------------------------------
-       setProps(title, f1, Color.BLACK);
-       Pane greatingW = new Pane();
-       Button btnW = new Button("Enter");
-       VBox vboxW = new VBox(10);
-         
-       btnW.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-        	System.out.println("Welcome");
-        	primaryStage.setScene(sn);
-        	primaryStage.show();
-	     }
-	  });
-          
-      btnW.setPrefWidth(300);
-      btnW.setPrefHeight(40);
- 	        
-      vboxW.setSpacing(10);
-      vboxW.setPadding(new Insets(250,20,20,225));
-      vboxW.getChildren().addAll(btnW);
- 	        
- 	  greatingW.getChildren().addAll(title, vboxW);
- 	        
- 	  Scene snw = new Scene(greatingW, 750, 500 );        
- 	  primaryStage.setTitle("Emplyoee Database");
- 	  primaryStage.setScene(snw);
- 	  primaryStage.show();    
- 	  // -------------------  GUI Welcome End -------------------------------------
-    }
-	//------------------------------------------------------------------------------------------------------
-	//
-	public static void setProps ( Text t, Font f, Color c ){
-        t.setFont(f);
-        t.setFill(c);
-    }
-	//------------------------------------------------------------------------------------------------------
-	//
-	public void bulidGUI() {
-		
-		
 	}
+	//------------------------------------------------------------------------------------------------------
 	public static void updateTable() {
 		olist.clear();
 		olist.addAll(employeeList);
