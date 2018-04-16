@@ -135,58 +135,7 @@ public class Payroll extends Application {
 	private static Label thisEmpDate;
 	private static Button thisEmpQuitButton;
     // ----------------------------- GUI end ------------------------------------------------------------
-	
-	//------------------------------------------------------------------------------------------------------
-	//Handles the reading and creation of the database file if there is none
-	public static void fileHandler() {
-		
-		try {
-			Fin = new FileInputStream(dataFile); 			//Database file
-			ObjectInputStream ObjInstream = new ObjectInputStream(Fin);	//Object input stream
-			
-			int id;				//ID
-			String login;		//Employee login
-			double salary; 		//Employee pay
-			String date;		//Date of hire
-			String name;		//Employee name
-			String type;		//Hourly or Salaried
-			byte[] password;	//Emplyoee's password
-			
-			while(true) {
-				
-				id = (Integer) ObjInstream.readObject();
-				login = (String) ObjInstream.readObject();
-				salary = (Double) ObjInstream.readObject();
-				type = (String) ObjInstream.readObject();
-				date = (String) ObjInstream.readObject();
-				name = (String) ObjInstream.readObject();
-				password = (byte[]) ObjInstream.readObject();
-				
-				if(type.equals("Salaried")) {
-					Salaried newEmplyoee = new Salaried (id, login, type, salary, date, name, password);
-			        employeeList.add(newEmplyoee);
-				}
-				else {
-					Hourly newEmplyoee = new Hourly (id, login, type, salary, date, name, password);
-					employeeList.add(newEmplyoee);
-				}
-			}
-			// Fout.close(); says unreachable
-		} //Try
-		catch (FileNotFoundException ex) {
-			System.out.println("Error: No Database file, Creating one now.");
-			try {
-				dataFile.createNewFile();
-				newEmplyoee();
-			} catch (IOException e) {
-				System.out.println("Error: IOException");
-			}
-		}
-		catch (IOException e) {
-		} catch (ClassNotFoundException e) {
-			System.out.println("Error: Class not found");
-		}
-	}
+
 	//-------------------------------------------------------------------------------------------------------
 	//Login to the system 
 	private static void doLogin() {
@@ -581,7 +530,7 @@ public class Payroll extends Application {
 	//-------------------------------------------------------------------------------------------------------
 	//Menu for the program
 	public static void doMenu() { 
-		fileHandler();
+		//fileHandler();
 		int command = 1; 	//Input command
 		String garbage;		//Eats the new line char
 		//Menu
@@ -646,7 +595,7 @@ public class Payroll extends Application {
 	//Start method 
 	@Override
     public void start(Stage primaryStage) {
-
+		//Handles the reading and creation of the database file if there is none
 		try {
 			Fin = new FileInputStream(dataFile); 			//Database file
 			ObjectInputStream ObjInstream = new ObjectInputStream(Fin);	//Object input stream
@@ -703,7 +652,7 @@ public class Payroll extends Application {
         t.setFill(c);
     }
 	//------------------------------------------------------------------------------------------------------
-	//
+	//Method to make the GUI 
 	public static void buildGUI(Stage primaryStage) {
 // -------------------  GUI Login Start ----------------------------------------------
 		
