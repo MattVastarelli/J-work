@@ -2,6 +2,8 @@
  * Matthew Vastarelli
  * Payroll.Java
  */
+import java.awt.Label;
+import java.awt.TextField;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,8 +20,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -575,9 +580,10 @@ public class Payroll extends Application {
 		Font f1 = Font.font ("Arial", FontWeight.BOLD, FontPosture.REGULAR, 15);
 		
 // -------------------  GUI Login Start -------------------------------------
-		Pane greating = new Pane();
+		/*Pane greating = new Pane();
 		Button btnLogin = new Button("Log in");
 		VBox vbox = new VBox(10);
+		
 	
 		setProps(title, f1, Color.BLACK);
 		//Button event handler
@@ -592,12 +598,13 @@ public class Payroll extends Application {
 		btnLogin.setPrefHeight(40);
 			        
 		vbox.setSpacing(10);
-		vbox.setPadding(new Insets(250,20,20,225));
+		vbox.setPadding(new Insets(375,20,0,225));
 		vbox.getChildren().addAll(btnLogin);
 			        
 		greating.getChildren().addAll(title, vbox);
 			        
-		Scene sn = new Scene(greating, 750, 500 );     
+		Scene snLogin = new Scene(greating, 750, 500 );   */  
+		
 // -------------------  GUI login Start -------------------------------------
 		
 // -------------------  GUI Welcome Start -------------------------------------
@@ -610,6 +617,8 @@ public class Payroll extends Application {
         @Override
         public void handle(ActionEvent event) {
         	System.out.println("Welcome");
+        	primaryStage.setScene(sceneLogin);
+        	primaryStage.show();
 	     }
 	  });
           
