@@ -146,6 +146,10 @@ public class Payroll extends Application {
 	private static String newName;
 	private static String newSalary;
 	private static String newSalaryType;
+	//Change Employee data
+	private static String employeeId;
+	private static String changeName;
+	private static String changeSalary;
 	//
 	
 	//-------------------------------------------------------------------------------------------------------
@@ -166,11 +170,13 @@ public class Payroll extends Application {
 					if(emplyoeeSearch.employeeID == 0) {
 						isBoss = true;
 						loggedIn = true;
+						currentID = emplyoeeSearch.getID();
 						currentUser = employeeList.get(i);
 						break;
 						}
 					else {
 						isBoss = false;
+						currentID = emplyoeeSearch.getID();
 						currentUser = employeeList.get(i);
 						loggedIn = true;
 					}
@@ -335,13 +341,11 @@ public class Payroll extends Application {
 	//-------------------------------------------------------------------------------------------------------
 	//Allows the boss to terminate an employee or have an employee quit
 	public static void terminateEmplyoee() {
-		int firedID = 0;
+		int firedID = Integer.parseInt(employeeId);
 		employee terminate;
 		int counter = 0;
 		
 		if (isBoss) {
-			System.out.println("Enter employee ID who you whish to terminate employment: ");
-			firedID = scConsle.nextInt();
 			terminate = employeeList.get(firedID);
 			quitOrFired.add(terminate);
 			
@@ -349,7 +353,6 @@ public class Payroll extends Application {
 			for (employee emplyoeeSearch: employeeList) {
 				if(emplyoeeSearch.employeeID == firedID) {
 					employeeList.remove(counter);
-					System.out.println("Employee terminated");
 					break;
 				}
 				counter++;
@@ -362,7 +365,6 @@ public class Payroll extends Application {
 					quitOrFired.add(currentUser);
 					employeeList.remove(counter);
 					loggedIn = false;
-					break;
 				}
 				counter++;
 			}
@@ -396,57 +398,24 @@ public class Payroll extends Application {
 	//------------------------------------------------------------------------------------------------------
 	//Allows the boss to change employee data
 	public static void changeData() {
-		int command = 0;
-		String change;
-		String garbage;
-		double newPay = 0.0;
+		double newPay = Double.parseDouble(changeSalary);
 		employee eInfoChange;
 		int counter = 0;
-		
+		int eID = Integer.parseInt(employeeId);
+
 		if(isBoss) {
-			System.out.println("1: Change Name");
-			System.out.println("2: Change Pay");
-			System.out.println("Enter the corresponding number for the data to be changed: ");
-			command = scConsle.nextInt();
-			garbage = scConsle.nextLine();
-			
-			if(command == 1) {
-				System.out.println("Enter employee ID whos data you wish to change: ");
-				command = scConsle.nextInt();
-				garbage = scConsle.nextLine();
 				for (employee emplyoeeSearch: employeeList) {
-					if(emplyoeeSearch.employeeID == command) {
+					if(emplyoeeSearch.employeeID == eID) {
 						eInfoChange = employeeList.get(counter);
-						System.out.println("Enter the new name for the employee: ");
-						change = scConsle.nextLine();
-						garbage = scConsle.nextLine();
-						eInfoChange.employeeName = change;
-						break;
-					}
-					counter++;
-				}	
-			}
-			else if (command == 2) {
-				System.out.println("Enter employee ID whos data you wish to change: ");
-				command = scConsle.nextInt();
-				for (employee emplyoeeSearch: employeeList) {
-					if(emplyoeeSearch.employeeID == command) {
-						eInfoChange = employeeList.get(counter);
-						System.out.println("Enter the new pay for the employee: ");
-						newPay = scConsle.nextDouble();
+						eInfoChange.employeeName = changeName;
 						eInfoChange.baseSalary = newPay;
 						break;
 					}
 					counter++;
 				}	
-			}
-			else {
-				System.out.println("Error: Please select on of the options.");
-			}
-		}
-		else {
-			System.out.println("Error: permission denied, user is not the boss or not logged in.");
-		}
+			}	
+		else 
+			System.out.println("Error: Please select on of the options.");
 	}
 	//------------------------------------------------------------------------------------------------------
 	//Prints the employee arrayList
@@ -678,14 +647,14 @@ public class Payroll extends Application {
 // -------------------  GUI New Employee End -----------------------------------------
 // -------------------  GUI Change start --------------------------------------------
 		changeEmpPane = new VBox(20);
-		changeEmpBackButton = new Button("Return Without Saving");
+		changeEmpBackButton = new Button("Back");
 		employeeIdLabel = new Label("Enter ID of Employee to change");
 		employeeIdField = new TextField();
 		changeNameLabel = new Label("New Employee Name");
 		changeNameField = new TextField();
 		changeSalaryLabel = new Label("New Employee Salary");
 		changeSalaryField = new TextField();
-		submitChangedEmployee = new Button("Submit Employee Changes");
+		submitChangedEmployee = new Button("Submit Changes");
 		fireEmployee = new Button("Fire Employee");
 		
 		changeEmpBackButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -705,6 +674,10 @@ public class Payroll extends Application {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("Change");
+	        	employeeId = employeeIdField.getText();
+	    		changeName = changeNameField.getText();
+	    		changeSalary = changeSalaryField.getText();
+	    		changeData();
 	        	primaryStage.setScene(bossScene);
 	        	primaryStage.show();
 		     }
@@ -719,6 +692,7 @@ public class Payroll extends Application {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("Fire Employee");
+	        	terminateEmplyoee();
 	        	primaryStage.setScene(bossScene);
 	        	primaryStage.show();
 		     }
@@ -769,7 +743,7 @@ public class Payroll extends Application {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("Quit");
-	        	//write and quit the system
+	        	//write and quit 
 	        	quit();
 		     }
 		  });
@@ -837,19 +811,19 @@ public class Payroll extends Application {
 		thisEmpSalary.setText(currentUser.getPayString());
 		thisEmpDate.setText(currentUser.hiringTime);*/
 		
-		/*thisEmpBackButton.setOnAction(e -> {System.exit(1);});
-		thisEmpQuitButton.setOnAction(e -> {
-			
-			if (currentUser.getID() != 0) {
-				employeeList.remove(currentUser);
-				System.exit(1);
-			}
-		});*/
-		
-		EmpQuitButton.setOnAction(new EventHandler<ActionEvent>() {
+		EmpBackButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("Quit");
+	        	quit();
+		     }
+		  });
+		
+		EmpQuitButton.setOnAction(new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent event1) {
+	        	System.out.println("quit");
+	        	terminateEmplyoee();
 	        	quit();
 		     }
 		  });
@@ -859,9 +833,10 @@ public class Payroll extends Application {
 		
 		empScene = new Scene (EmpPane, 800, 600);
 		 
-// -------------------  GUI Employee End --------------------------------------------
+// -------------------  GUI Employee End --------------------------------------------------------------
 	}
 //------------------------------------------------------------------------------------------------------
+//Allows for the table to be changed
 	public static void updateTable() {
 		olist.clear();
 		olist.addAll(employeeList);
@@ -872,15 +847,6 @@ public class Payroll extends Application {
 	public static void main(String[] args)
 	 {
 		launch(args);
-		//System.out.println("Welcome to the Emplyoee Database, by Matthew Vastarelli");
-		//Payroll menu
-		try {
-			//Payroll.doMenu();
-		}
-		catch(InputMismatchException ex) {
-			System.out.println("Error: I/O Mismatch.");
-			ex.printStackTrace(System.out);
-		}	
-	}
+	 }
 }
 //-------------------------------------------------------------------------------------------------------
