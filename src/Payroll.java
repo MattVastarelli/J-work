@@ -364,9 +364,10 @@ public class Payroll extends Application {
 			//search for the index of the employee that wishes to quit
 			for (employee emplyoeeSearch: employeeList) {	
 				if(emplyoeeSearch.employeeID == currentUser.employeeID) {
-					//quitOrFired.add(currentUser);
+					quitOrFired.add(currentUser);
 					employeeList.remove(counter);
 					loggedIn = false;
+					break;
 				}
 				counter++;
 			}
