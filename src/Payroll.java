@@ -219,7 +219,7 @@ public class Payroll extends Application {
 	}
 	//-------------------------------------------------------------------------------------------------------
 	//Add an employee
-	public static void newEmplyoee() {
+	public static boolean newEmplyoee() {
 		if(employeeList.isEmpty())
 			isBoss = true;
 	
@@ -259,10 +259,12 @@ public class Payroll extends Application {
     		else {
     			System.out.println("Error: Please select one of the two options.");
     		}
+    		return true;
 	}
 	//Not the boss
 	else {
 		System.out.println("Error: permission denied, user is not the boss or not logged in.");
+		return false;
 	}
 }
 	//-------------------------------------------------------------------------------------------------------
@@ -636,6 +638,7 @@ public class Payroll extends Application {
 		    public void handle(ActionEvent event) {
 		        System.out.println("Back to boss");
 		        primaryStage.setScene(bossScene);
+		        primaryStage.show();
 			  }
 			});
 					
@@ -649,7 +652,12 @@ public class Payroll extends Application {
 				newName = newNameField.getText();
 				newSalary = newSalaryField.getText();
 				newSalaryType = newSalaryTypeField.getText();
-		        primaryStage.setScene(bossScene);
+				if (newEmplyoee())
+				{
+					primaryStage.setScene(bossScene);
+					primaryStage.show();
+				}
+		        
 			  }
 			});	
 				/*
