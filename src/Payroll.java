@@ -38,7 +38,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-//U: mvast
+//U: mvast1
 //P: pass
 public class Payroll extends Application {
 	
@@ -74,8 +74,7 @@ public class Payroll extends Application {
 	private static TextField loginTF;
 	private static Label pwLabel;
 	private static PasswordField pwTF;
-	//A Boss screen with a scrollable text area to display the list of employees and buttons to create
-	//a new employee, make changes, or do the payroll. After doing the payroll, go to screen 5.
+	//
 	private static Scene bossScene;
 	private static Button newEmpButton;
 	private static Button changeEmpButton;
@@ -84,8 +83,7 @@ public class Payroll extends Application {
 	private static VBox bossPane;
 	private static TableView t1;
 	private static ObservableList<employee> olist;
-	//A screen for creating new Employees. Create the employee and return to screen 2 when the
-	//Boss clicks one of the radio buttons to select the employee type.
+	//
 	private static Scene newEmpScene;
 	private static VBox newEmpPane;
 	private static Label newLoginLabel;
@@ -100,8 +98,7 @@ public class Payroll extends Application {
 	private static TextField newNameField;
 	private static Button submitNewEmployee;
 	private static Button newEmpBackButton;
-	//A screen for the Boss to change an Employee�s name or salary or fire him. Return to screen
-	//2 when the Boss clicks �OK�.
+	//
 	private static Scene changeEmpScene;
 	private static VBox changeEmpPane;
 	private static Button changeEmpBackButton;
@@ -113,13 +110,11 @@ public class Payroll extends Application {
 	private static TextField changeSalaryField;
 	private static Button submitChangedEmployee;
 	private static Button fireEmployee;
-	//A screen to display the payroll data. This should have a scrollable text area for the payroll
-	//output and a single �OK� button that takes control back to screen 2.
+	//
 	private static Scene payrollScene;
 	private static VBox payrollPane;
 	private static Button okButton;
-	//A screen for the non-Boss to view his own data and possibly quit. This screen should display
-	//a photograph.
+	//
 	private static Scene empScene;
 	private static VBox thisEmpPane;
 	private static Button thisEmpBackButton;
@@ -527,69 +522,21 @@ public class Payroll extends Application {
 			System.out.println("Error: File not created");
 		}
 	}
-	//-------------------------------------------------------------------------------------------------------
-	//Menu for the program
-	public static void doMenu() { 
-		//fileHandler();
-		int command = 1; 	//Input command
-		String garbage;		//Eats the new line char
-		//Menu
-		System.out.println(menu);
-		try {
-			while (true) {
-					System.out.println("\nEnter the number of the command you wish to excute: ");
-					command = scConsle.nextInt();
-					garbage = scConsle.nextLine();
-					switch (command) {
-						case 1: command = 1;
-			        				doLogin(); //Login
-			        				break;
-						case 2: command = 2;
-			        				newEmplyoee(); //Create Employee
-			        				break;
-						case 3: command = 3;
-			        				listEmplyoee(); //List the all employees or the current user 
-			        				break;
-						case 4: command = 4;
-			        				terminateEmplyoee(); //Terminates or allows an employee to quit
-			        				break;
-						case 5: command = 5;
-			        				changeData();	//Allows the changing of employee data
-			        				break;
-						case 6: command = 6;
-									payEmplyoee();	//Facilitates the payment of the employee's salaries 
-									break;
-						case 7:	command = 0; //exit
-			        				break;
-			        		default: 
-			        			break;
-						}//Switch
-				if(command == 0)
-					break;
-			}//While
-		}
-		finally {
-			//print employees that have quit or been fired this running of the payroll system
-			System.out.println("The employees that have quit or been fired this running of the payroll system");
-			for (employee emplyoeeSearch: quitOrFired) 
-			{
-	        	System.out.printf(emplyoeeSearch.employeeName);
-			}
-			
-			print();
-			
-			 try {
-				 	Fout.close();
-				 	Fin.close();
-				} catch (IOException e) {
-					System.out.println("Error: IOException");
-				}
-			 	catch(NullPointerException e) {
-			 		
-			 	}
-		}
+	//----------------------------------------------------------------------------------------------------
+	//Method to handle quitting the system
+	public static void quit() {
+		print();
 		
-	System.out.println("\nThank you for using the Emplyoee Database.");
+		 try {
+			 	Fout.close();
+			 	Fin.close();
+			} catch (IOException e) {
+				System.out.println("Error: IOException");
+			}
+		 	catch(NullPointerException e) {
+		 		
+		 	}
+		 System.exit(0);
 	}
 	//------------------------------------------------------------------------------------------------------
 	//Start method 
@@ -819,6 +766,7 @@ public class Payroll extends Application {
 	        public void handle(ActionEvent event) {
 	        	System.out.println("Quit");
 	        	//write and quit the system
+	        	quit();
 		     }
 		  });
 
