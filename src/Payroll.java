@@ -343,11 +343,11 @@ public class Payroll extends Application {
 	//-------------------------------------------------------------------------------------------------------
 	//Allows the boss to terminate an employee or have an employee quit
 	public static void terminateEmplyoee() {
-		int firedID = Integer.parseInt(employeeId);
 		employee terminate;
 		int counter = 0;
 		
 		if (isBoss) {
+			int firedID = Integer.parseInt(employeeId);
 			terminate = employeeList.get(firedID);
 			quitOrFired.add(terminate);
 			
@@ -364,7 +364,7 @@ public class Payroll extends Application {
 			//search for the index of the employee that wishes to quit
 			for (employee emplyoeeSearch: employeeList) {	
 				if(emplyoeeSearch.employeeID == currentUser.employeeID) {
-					quitOrFired.add(currentUser);
+					//quitOrFired.add(currentUser);
 					employeeList.remove(counter);
 					loggedIn = false;
 				}
