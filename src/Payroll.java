@@ -86,6 +86,7 @@ public class Payroll extends Application {
 	private static VBox bossPane;
 	private static TableView t1;
 	private static ObservableList<employee> olist;
+	private static Button BlogOutButton;
 	//New Employee
 	private static Scene newEmpScene;
 	private static VBox newEmpPane;
@@ -134,6 +135,7 @@ public class Payroll extends Application {
 	private static Label EmpDateLabel;
 	private static Label EmpDate;
 	private static Button EmpQuitButton;
+	private static Button ElogOutButton;
     // ----------------------------- GUI end --------------------------------------------------------------
 	// ----------------------------- GUI Input ------------------------------------------------------------
 	//Login
@@ -691,6 +693,7 @@ public class Payroll extends Application {
 		fireEmployee.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent event) {
+	        	employeeId = employeeIdField.getText();
 	        	System.out.println("Fire Employee");
 	        	terminateEmplyoee();
 	        	primaryStage.setScene(bossScene);
@@ -711,6 +714,7 @@ public class Payroll extends Application {
 		changeEmpButton = new Button("Change Employee Information");
 		payrollButton = new Button ("Create Payroll");
 		quitButton = new Button ("Exit Program");
+		BlogOutButton = new Button ("Log Out");
 		bossPane = new VBox(20);
 		t1 = new TableView();
 		ObservableList<employee> olist;	
@@ -747,6 +751,15 @@ public class Payroll extends Application {
 	        	quit();
 		     }
 		  });
+		BlogOutButton.setOnAction(new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent event) {
+	        	System.out.println("log out");
+	        	primaryStage.setScene(snLog);
+	        	primaryStage.show();
+	        	loggedIn = false;
+		     }
+		  });
 
 		
 		TableColumn idCol = new TableColumn("ID");
@@ -765,7 +778,7 @@ public class Payroll extends Application {
 		olist = FXCollections.observableArrayList();
 		updateTable();*/
 		
-		bossPane.getChildren().addAll(newEmpButton, changeEmpButton, payrollButton, quitButton, t1);
+		bossPane.getChildren().addAll(newEmpButton, changeEmpButton, payrollButton, quitButton, BlogOutButton, t1);
 
 		bossScene = new Scene(bossPane, 800, 600);
 		
@@ -804,6 +817,7 @@ public class Payroll extends Application {
 		EmpDate = new Label ("");
 		EmpQuitButton = new Button("Quit Job");
 		EmpBackButton = new Button("Exit ");
+		ElogOutButton = new Button("Log Out");
 		/*
 		thisEmpId.setText(currentUser.getIDString());
 		thisEmpLogin.setText(currentUser.getLoginName());
@@ -827,9 +841,19 @@ public class Payroll extends Application {
 	        	quit();
 		     }
 		  });
+		ElogOutButton.setOnAction(new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent event) {
+	        	System.out.println("log out");
+	        	primaryStage.setScene(snLog);
+	        	primaryStage.show();
+	        	loggedIn = false;
+		     }
+		  });
 		
 		EmpPane.getChildren().addAll(EmpBackButton,EmpIdLabel, EmpId, EmpLoginLabel, EmpLogin, 
-				EmpNameLabel, EmpName, EmpSalaryLabel, EmpSalary, EmpDateLabel, EmpDate, EmpQuitButton);
+				EmpNameLabel, EmpName, EmpSalaryLabel, EmpSalary, EmpDateLabel, EmpDate, 
+				EmpQuitButton, ElogOutButton);
 		
 		empScene = new Scene (EmpPane, 800, 600);
 		 
