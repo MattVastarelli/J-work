@@ -80,11 +80,11 @@ public abstract  class employee {
 		//------------------------------------------------------------------------------
 		//Gets the employee's pay as a string
 		public String getPayString() {
-			String sID;
+			String spay;
 					
-			sID = Double.toString(baseSalary);
+			spay = Double.toString(baseSalary);
 					
-			return sID;
+			return spay;
 		}
 		//------------------------------------------------------------------------------
 		//Gets the employee's password

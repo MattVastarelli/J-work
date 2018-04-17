@@ -67,6 +67,7 @@ public class Payroll extends Application {
 	static FileOutputStream Fout = null;
      
     // ----------------------------- GUI Start --------------------------------------------------------
+	//Login
 	private static Scene snLog;
 	private static VBox loginPane;
 	private static Label loginLabel;
@@ -74,7 +75,7 @@ public class Payroll extends Application {
 	private static TextField loginTF;
 	private static Label pwLabel;
 	private static PasswordField pwTF;
-	//
+	//Boss
 	private static Scene bossScene;
 	private static Button newEmpButton;
 	private static Button changeEmpButton;
@@ -83,7 +84,7 @@ public class Payroll extends Application {
 	private static VBox bossPane;
 	private static TableView t1;
 	private static ObservableList<employee> olist;
-	//
+	//New Employee
 	private static Scene newEmpScene;
 	private static VBox newEmpPane;
 	private static Label newLoginLabel;
@@ -98,7 +99,9 @@ public class Payroll extends Application {
 	private static TextField newNameField;
 	private static Button submitNewEmployee;
 	private static Button newEmpBackButton;
-	//
+	private static TextField newSalaryTypeField; 
+	private static Label newSalaryTypeLabel;
+	//Change Employee data
 	private static Scene changeEmpScene;
 	private static VBox changeEmpPane;
 	private static Button changeEmpBackButton;
@@ -110,11 +113,11 @@ public class Payroll extends Application {
 	private static TextField changeSalaryField;
 	private static Button submitChangedEmployee;
 	private static Button fireEmployee;
-	//
+	//Payroll
 	private static Scene payrollScene;
 	private static VBox payrollPane;
 	private static Button okButton;
-	//
+	//Employee
 	private static Scene empScene;
 	private static VBox thisEmpPane;
 	private static Button thisEmpBackButton;
@@ -131,8 +134,18 @@ public class Payroll extends Application {
 	private static Button thisEmpQuitButton;
     // ----------------------------- GUI end --------------------------------------------------------------
 	// ----------------------------- GUI Input ------------------------------------------------------------
+	//Login
 	private static String username;
 	private static String pass;
+	//New Employee
+	private static String newLogin;
+	private static String newPassword;
+	private static String confirmNewPassword;
+	private static String newName;
+	private static String newSalary;
+	private static String newSalaryType;
+	//
+	
 	//-------------------------------------------------------------------------------------------------------
 	//Login to the system 
 	private static boolean doLogin() {
@@ -211,102 +224,67 @@ public class Payroll extends Application {
 			isBoss = true;
 	
 		 if (isBoss) {
-			String login;		//Employee login
-    		double salary; 		//Employee pay
-    		String name;		//Employee name
-			String garbage;		//Eats the new line char
-			int payType = 0;	//Salaried or hourly
 			byte[] pass;		//Password
+			double pay;
 			
-    			System.out.print("\nEnter name: \n"); 									
-    			name = scConsle.nextLine();			
+			pay = Double.parseDouble(newSalary);
     			
-    			System.out.print("\nEnter login name: ");
-    			login = scConsle.next();
-    			garbage = scConsle.nextLine();
+    		//search for the existence of the login name
+    		for (employee emplyoeeSearch: employeeList) {
+    			if(newLogin.equals(emplyoeeSearch.loginName)) {
+    				System.out.println("Error: login name is alread in use.");
+    				System.out.print("\nEnter login name: ");
+    			}
+    		}
     			
-    			//search for the existence of the login name
-    			for (employee emplyoeeSearch: employeeList) {
-    				if(login.equals(emplyoeeSearch.loginName)) {
-    					System.out.println("Error: login name is alread in use.");
-    					System.out.print("\nEnter login name: ");
-    	    			login = scConsle.next();
-    	    			garbage = scConsle.nextLine();
-    				}
-    			}
+    		//calls for the password
+    		pass = getNewPassword();
     			
-    			//calls for the password
-    			pass = getNewPassword();
-    		        
-    			System.out.println("\n1: Salaried");
-    			System.out.println("\n2: Hourly");
-    			System.out.print("\nEnter the corresponding number for the emplyoment type: ");
-    			payType = scConsle.nextInt();
-    			garbage = scConsle.nextLine();
-    			
-    			//Salaried
-    			if(payType == 1) {
-    				System.out.print("\nEnter salaried employee salary: ");
-        			salary = scConsle.nextDouble();
-        			garbage = scConsle.nextLine();
-        			
-        			//create the employee
-        			employee newemplyoee = new Salaried(login, salary, name, pass);
-        			newemplyoee.employmentType = "Salaried";
-        			//Add the employee to the ArrayList
-        			employeeList.add(newemplyoee);
-    			}
-    			//Hourly
-    			else if(payType == 2) {
-    				System.out.print("\nEnter salary: ");
-        			salary = scConsle.nextDouble();
-        			garbage = scConsle.nextLine();
-        			
-        			//create the employee
-        			employee newemplyoee = new Hourly(login, salary, name, pass);
-        			newemplyoee.employmentType = "Hourly";
-        			//Add the employee to the ArrayList
-        			employeeList.add(newemplyoee);
-    			}
-    			else {
-    				System.out.println("Error: Please select one of the two options.");
-    			}
-		}
-		//Not the boss
-		else {
-			System.out.println("Error: permission denied, user is not the boss or not logged in.");
-		}
+    		//Salaried
+    		if(newSalaryType.equals("Salaried")) {
+        		//create the employee
+        		employee newemplyoee = new Salaried(newLogin, pay, newName, pass);
+        		newemplyoee.employmentType = "Salaried";
+        		//Add the employee to the ArrayList
+        		employeeList.add(newemplyoee);
+    		}
+    		//Hourly
+    		else if(newSalaryType.equals("Hourly")) {
+        		//create the employee
+        		employee newemplyoee = new Hourly(newLogin, pay, newName, pass);
+        		newemplyoee.employmentType = "Hourly";
+       			//Add the employee to the ArrayList
+       			employeeList.add(newemplyoee);
+    		}
+    		else {
+    			System.out.println("Error: Please select one of the two options.");
+    		}
 	}
+	//Not the boss
+	else {
+		System.out.println("Error: permission denied, user is not the boss or not logged in.");
+	}
+}
 	//-------------------------------------------------------------------------------------------------------
 	//Prompts for a password twice and compares the hashes of the passwords if they match the byte array is
 	//Returned else the function prompts until two matching passwords are entered.
 	public static byte[] getNewPassword() {
 		byte[] bArray1;
 		byte[] bArray2;
-		String input;
 		MessageDigest digest1 = null;
 		MessageDigest digest2 = null;
 		
 		while(true) {
-			
-			System.out.println("Enter Password: ");
-			input = scConsle.next();
-			//bArray1 = input.getBytes();
-			//set up the first password
 			try {
 				digest1 = MessageDigest.getInstance("SHA-256");
-				digest1.update(input.getBytes());
+				digest1.update(newPassword.getBytes());
 				
 			} catch (NoSuchAlgorithmException e) {
 			}
-			
-			System.out.println("Renter Password: ");
-			input = scConsle.next();
-			bArray2 = input.getBytes();
 			//set up the second password
 			try {
 				digest2 = MessageDigest.getInstance("SHA-256");
-				digest2.update(input.getBytes());
+				digest2.update(confirmNewPassword.getBytes());
 				
 			} catch (NoSuchAlgorithmException e) {
 			}
@@ -649,8 +627,10 @@ public class Payroll extends Application {
 		newNameField = new TextField();
 		newSalaryLabel = new Label("Salary:");
 		newSalaryField = new TextField();
+		newSalaryTypeLabel = new Label("Salary Type: Salaried or Hourly");
+		newSalaryTypeField = new TextField();
 		submitNewEmployee = new Button("Submit");
-					
+		
 		newEmpBackButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 		    public void handle(ActionEvent event) {
@@ -659,13 +639,19 @@ public class Payroll extends Application {
 			  }
 			});
 					
-		employee toAdd;
-		String inp1 = "";
-		byte[] inp2;
-		int inp3; 
-		String inp4 = "";
-		String inp5 = "";
-				
+		submitNewEmployee.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+		    public void handle(ActionEvent event) {
+		        System.out.println("Submit");
+		        newLogin = newLoginField.getText();
+		        newPassword = newPasswordField.getText();
+		        confirmNewPassword = confirmNewPasswordField.getText();
+				newName = newNameField.getText();
+				newSalary = newSalaryField.getText();
+				newSalaryType = newSalaryTypeField.getText();
+		        primaryStage.setScene(bossScene);
+			  }
+			});	
 				/*
 				submitNewEmployee.setOnAction(e -> {
 					//Compile and add employee
@@ -675,7 +661,7 @@ public class Payroll extends Application {
 					
 		newEmpPane.getChildren().addAll(newEmpBackButton, newLoginLabel, newLoginField, newPasswordLabel, 
 				newPasswordField, confirmNewPasswordLabel, confirmNewPasswordField, newNameLabel, newNameField, 
-				newSalaryLabel, newSalaryField, submitNewEmployee);
+				newSalaryLabel, newSalaryField,newSalaryTypeLabel, newSalaryTypeField, submitNewEmployee);
 		
 		newEmpScene = new Scene (newEmpPane, 800, 600);
 								
