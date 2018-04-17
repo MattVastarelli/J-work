@@ -579,26 +579,6 @@ public class Payroll extends Application {
 				}
 			}
 		});
-		
-		ObservableList<employee> olist;	
-		t1 = new TableView<employee>();
-		TableColumn idCol = new TableColumn("ID");
-		TableColumn logCol = new TableColumn("Login");
-		TableColumn nameCol = new TableColumn("Name");
-		TableColumn salCol = new TableColumn("Salary");
-		TableColumn datCol = new TableColumn("Hiring Date");
-		t1.getColumns().addAll(idCol, logCol, nameCol, salCol, datCol);
-		
-		idCol.setCellValueFactory(new PropertyValueFactory<employee, String>("id"));
-		logCol.setCellValueFactory(new PropertyValueFactory<employee, String>("login"));
-		nameCol.setCellValueFactory(new PropertyValueFactory<employee, String>("name"));
-		salCol.setCellValueFactory(new PropertyValueFactory<employee, Float>("salary"));
-		datCol.setCellValueFactory(new PropertyValueFactory<employee, Date>("date"));
-		
-		olist = FXCollections.observableArrayList();
-		olist.clear();
-		olist.addAll(employeeList);
-		t1.setItems(olist);
 							
 // -------------------  GUI login End --------------------------------------------			
 // -------------------  GUI New Employee Start ---------------------------------------
@@ -714,7 +694,8 @@ public class Payroll extends Application {
 		quitButton = new Button ("Exit Program");
 		BlogOutButton = new Button ("Log Out");
 		bossPane = new VBox(20);
-	
+		
+		
 		newEmpButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent event) {
@@ -758,7 +739,32 @@ public class Payroll extends Application {
 		     }
 		  });
 
-		bossPane.getChildren().addAll(newEmpButton, changeEmpButton, payrollButton, quitButton, BlogOutButton, t1);
+		
+		/*ObservableList<employee> olist;	
+		t1 = new TableView<employee>();
+		
+		TableColumn idCol = new TableColumn("ID");
+		TableColumn logCol = new TableColumn("Login");
+		TableColumn nameCol = new TableColumn("Name");
+		TableColumn salCol = new TableColumn("Salary");
+		TableColumn datCol = new TableColumn("Hiring Date");
+		t1.getColumns().addAll(idCol, logCol, nameCol, salCol, datCol);
+		
+		idCol.setCellValueFactory(new PropertyValueFactory<employee, String>("id"));
+		logCol.setCellValueFactory(new PropertyValueFactory<employee, String>("login"));
+		nameCol.setCellValueFactory(new PropertyValueFactory<employee, String>("name"));
+		salCol.setCellValueFactory(new PropertyValueFactory<employee, Float>("salary"));
+		datCol.setCellValueFactory(new PropertyValueFactory<employee, Date>("date"));
+		
+		olist = FXCollections.observableArrayList();
+		
+		olist.clear();
+		olist.addAll(employeeList);
+		t1.setItems(olist);*/
+		
+		
+		bossPane.getChildren().addAll(newEmpButton, changeEmpButton, payrollButton, quitButton, 
+				BlogOutButton, t1);
 
 		bossScene = new Scene(bossPane, 800, 600);
 		
