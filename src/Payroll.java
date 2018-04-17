@@ -740,6 +740,7 @@ public class Payroll extends Application {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("Payroll");
+	        	payEmplyoee();
 	        	primaryStage.setScene(payrollScene);
 	        	primaryStage.show();
 		     }
