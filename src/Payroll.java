@@ -40,6 +40,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 //U: mvast1
 //P: pass
+//U: test
+//P: test
 public class Payroll extends Application {
 	
 	static employee currentUser;			//The index of the current employee using the system
@@ -119,19 +121,19 @@ public class Payroll extends Application {
 	private static Button okButton;
 	//Employee
 	private static Scene empScene;
-	private static VBox thisEmpPane;
-	private static Button thisEmpBackButton;
-	private static Label thisEmpIdLabel;
-	private static Label thisEmpId;
-	private static Label thisEmpLoginLabel;
-	private static Label thisEmpLogin;
-	private static Label thisEmpNameLabel;
-	private static Label thisEmpName;
-	private static Label thisEmpSalaryLabel;
-	private static Label thisEmpSalary;
-	private static Label thisEmpDateLabel;
-	private static Label thisEmpDate;
-	private static Button thisEmpQuitButton;
+	private static VBox EmpPane;
+	private static Button EmpBackButton;
+	private static Label EmpIdLabel;
+	private static Label EmpId;
+	private static Label EmpLoginLabel;
+	private static Label EmpLogin;
+	private static Label EmpNameLabel;
+	private static Label EmpName;
+	private static Label EmpSalaryLabel;
+	private static Label EmpSalary;
+	private static Label EmpDateLabel;
+	private static Label EmpDate;
+	private static Button EmpQuitButton;
     // ----------------------------- GUI end --------------------------------------------------------------
 	// ----------------------------- GUI Input ------------------------------------------------------------
 	//Login
@@ -241,7 +243,7 @@ public class Payroll extends Application {
     		pass = getNewPassword();
     			
     		//Salaried
-    		if(newSalaryType.equals("Salaried")) {
+    		if(newSalaryType.equals("salaried")) {
         		//create the employee
         		employee newemplyoee = new Salaried(newLogin, pay, newName, pass);
         		newemplyoee.employmentType = "Salaried";
@@ -249,7 +251,7 @@ public class Payroll extends Application {
         		employeeList.add(newemplyoee);
     		}
     		//Hourly
-    		else if(newSalaryType.equals("Hourly")) {
+    		else if(newSalaryType.equals("hourly")) {
         		//create the employee
         		employee newemplyoee = new Hourly(newLogin, pay, newName, pass);
         		newemplyoee.employmentType = "Hourly";
@@ -651,7 +653,7 @@ public class Payroll extends Application {
 		        confirmNewPassword = confirmNewPasswordField.getText();
 				newName = newNameField.getText();
 				newSalary = newSalaryField.getText();
-				newSalaryType = newSalaryTypeField.getText();
+				newSalaryType = newSalaryTypeField.getText().toLowerCase();
 				if (newEmplyoee())
 				{
 					primaryStage.setScene(bossScene);
@@ -815,18 +817,19 @@ public class Payroll extends Application {
 	
 // -------------------  GUI Employee Start ---------------------------------------
 		
-		thisEmpPane = new VBox(20);
-		thisEmpIdLabel = new Label("ID Number: ");
-		thisEmpId = new Label("");
-		thisEmpLoginLabel = new Label("Login Name: ");
-		thisEmpLogin = new Label ("");
-		thisEmpNameLabel = new Label("Name: ");
-		thisEmpName = new Label ("");
-		thisEmpSalaryLabel = new Label("Salary: ");
-		thisEmpSalary = new Label ("");
-		thisEmpDateLabel = new Label("Date Hired: ");
-		thisEmpDate = new Label ("");
-		
+		EmpPane = new VBox(20);
+		EmpIdLabel = new Label("ID Number: ");
+		EmpId = new Label("");
+		EmpLoginLabel = new Label("Login Name: ");
+		EmpLogin = new Label ("");
+		EmpNameLabel = new Label("Name: ");
+		EmpName = new Label ("");
+		EmpSalaryLabel = new Label("Salary: ");
+		EmpSalary = new Label ("");
+		EmpDateLabel = new Label("Date Hired: ");
+		EmpDate = new Label ("");
+		EmpQuitButton = new Button("Quit Job");
+		EmpBackButton = new Button("Exit ");
 		/*
 		thisEmpId.setText(currentUser.getIDString());
 		thisEmpLogin.setText(currentUser.getLoginName());
@@ -834,8 +837,6 @@ public class Payroll extends Application {
 		thisEmpSalary.setText(currentUser.getPayString());
 		thisEmpDate.setText(currentUser.hiringTime);*/
 		
-		thisEmpQuitButton = new Button("Quit Job");
-		thisEmpBackButton = new Button("Exit ");
 		/*thisEmpBackButton.setOnAction(e -> {System.exit(1);});
 		thisEmpQuitButton.setOnAction(e -> {
 			
@@ -845,10 +846,18 @@ public class Payroll extends Application {
 			}
 		});*/
 		
-		thisEmpPane.getChildren().addAll(thisEmpBackButton,thisEmpIdLabel, thisEmpId, thisEmpLoginLabel, thisEmpLogin, 
-				thisEmpNameLabel, thisEmpName, thisEmpSalaryLabel, thisEmpSalary, thisEmpDateLabel, thisEmpDate, thisEmpQuitButton);
+		EmpQuitButton.setOnAction(new EventHandler<ActionEvent>() {
+	        @Override
+	        public void handle(ActionEvent event) {
+	        	System.out.println("Quit");
+	        	quit();
+		     }
+		  });
 		
-		empScene = new Scene (thisEmpPane, 800, 600);
+		EmpPane.getChildren().addAll(EmpBackButton,EmpIdLabel, EmpId, EmpLoginLabel, EmpLogin, 
+				EmpNameLabel, EmpName, EmpSalaryLabel, EmpSalary, EmpDateLabel, EmpDate, EmpQuitButton);
+		
+		empScene = new Scene (EmpPane, 800, 600);
 		 
 // -------------------  GUI Employee End --------------------------------------------
 	}
