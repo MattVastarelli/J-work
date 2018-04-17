@@ -60,8 +60,8 @@ public class Payroll extends Application {
 	static FileInputStream Fin = null;
 	static FileOutputStream Fout = null;
      
-    // ----------------------------- GUI Start --------------------------------------------------------
-	//Login
+    // ----------------------------- GUI Elements Start --------------------------------------------------------
+	//Login Elements
 	private static Scene snLog;
 	private static VBox loginPane;
 	private static Label loginLabel;
@@ -69,7 +69,7 @@ public class Payroll extends Application {
 	private static TextField loginTF;
 	private static Label pwLabel;
 	private static PasswordField pwTF;
-	//Boss
+	//Boss Elements
 	private static Scene bossScene;
 	private static Button newEmpButton;
 	private static Button changeEmpButton;
@@ -79,7 +79,7 @@ public class Payroll extends Application {
 	private static TableView t1;
 	private static ObservableList<employee> olist;
 	private static Button BlogOutButton;
-	//New Employee
+	//New Employee Elements
 	private static Scene newEmpScene;
 	private static VBox newEmpPane;
 	private static Label newLoginLabel;
@@ -96,7 +96,7 @@ public class Payroll extends Application {
 	private static Button newEmpBackButton;
 	private static TextField newSalaryTypeField; 
 	private static Label newSalaryTypeLabel;
-	//Change Employee data
+	//Change Employee data Elements
 	private static Scene changeEmpScene;
 	private static VBox changeEmpPane;
 	private static Button changeEmpBackButton;
@@ -108,11 +108,11 @@ public class Payroll extends Application {
 	private static TextField changeSalaryField;
 	private static Button submitChangedEmployee;
 	private static Button fireEmployee;
-	//Payroll
+	//Payroll Elements
 	private static Scene payrollScene;
 	private static VBox payrollPane;
 	private static Button okButton;
-	//Employee
+	//Employee Elements
 	private static Scene empScene;
 	private static VBox EmpPane;
 	private static Button EmpBackButton;
@@ -128,7 +128,7 @@ public class Payroll extends Application {
 	private static Label EmpDate;
 	private static Button EmpQuitButton;
 	private static Button ElogOutButton;
-    // ----------------------------- GUI end --------------------------------------------------------------
+    // ----------------------------- GUI Elements end -----------------------------------------------------
 	// ----------------------------- GUI Input ------------------------------------------------------------
 	//Login
 	private static String username;
@@ -144,7 +144,7 @@ public class Payroll extends Application {
 	private static String employeeId;
 	private static String changeName;
 	private static String changeSalary;
-	//
+	// ----------------------------- GUI Input ------------------------------------------------------------
 	
 	//-------------------------------------------------------------------------------------------------------
 	//Login to the system 
@@ -538,7 +538,7 @@ public class Payroll extends Application {
 	//Method to make the GUI 
 	public static void buildGUI(Stage primaryStage) {
 		
-// -------------------  GUI Login Start ----------------------------------------------
+	//------------------------  GUI Login Start -------------------------------------------------------------
 		
 		loginPane = new VBox(25);
 		loginLabel = new Label("Username:");
@@ -580,8 +580,8 @@ public class Payroll extends Application {
 			}
 		});
 							
-// -------------------  GUI login End --------------------------------------------			
-// -------------------  GUI New Employee Start ---------------------------------------
+// --------------------------  GUI login End ----------------------------------------------------------			
+// --------------------------  GUI New Employee Start -------------------------------------------------
 		
 		newEmpPane = new VBox(20);
 		newEmpBackButton = new Button ("Return Without Saving");
@@ -633,8 +633,8 @@ public class Payroll extends Application {
 		
 		newEmpScene = new Scene (newEmpPane, 800, 600);
 								
-// -------------------  GUI New Employee End -----------------------------------------
-// -------------------  GUI Change start --------------------------------------------
+// ---------------------------  GUI New Employee End -------------------------------------------------------
+// ---------------------------  GUI Change start -----------------------------------------------------------
 		changeEmpPane = new VBox(20);
 		changeEmpBackButton = new Button("Back");
 		employeeIdLabel = new Label("Enter ID of Employee to change");
@@ -685,8 +685,8 @@ public class Payroll extends Application {
 		
 		changeEmpScene = new Scene(changeEmpPane, 800, 600);
 		
-// -------------------  GUI Change end ----------------------------------------------
-// -------------------  GUI Boss Start -----------------------------------------------
+// ------------------------  GUI Change end ----------------------------------------------------------------
+// ------------------------  GUI Boss Start ----------------------------------------------------------------
 		
 		newEmpButton = new Button("Create New Employee");
 		changeEmpButton = new Button("Change Employee Information");
@@ -694,7 +694,6 @@ public class Payroll extends Application {
 		quitButton = new Button ("Exit Program");
 		BlogOutButton = new Button ("Log Out");
 		bossPane = new VBox(20);
-		
 		
 		newEmpButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
@@ -739,8 +738,7 @@ public class Payroll extends Application {
 		     }
 		  });
 
-		
-		/*ObservableList<employee> olist;	
+		ObservableList<employee> olist;	
 		t1 = new TableView<employee>();
 		
 		TableColumn idCol = new TableColumn("ID");
@@ -758,7 +756,7 @@ public class Payroll extends Application {
 		
 		olist = FXCollections.observableArrayList();
 		
-		olist.clear();
+		/*olist.clear();
 		olist.addAll(employeeList);
 		t1.setItems(olist);*/
 		
@@ -768,8 +766,8 @@ public class Payroll extends Application {
 
 		bossScene = new Scene(bossPane, 800, 600);
 		
-// -------------------  GUI Boss End --------------------------------------------
-// -------------------  GUI Payroll Start --------------------------------------------
+// ---------------------------  GUI Boss End ------------------------------------------------------------
+// ---------------------------  GUI Payroll Start -------------------------------------------------------
 		payrollPane = new VBox(20);
 		okButton = new Button("OK");
 				
@@ -786,9 +784,9 @@ public class Payroll extends Application {
 		payrollPane.getChildren().addAll(okButton,t1);
 				
 		payrollScene = new Scene(payrollPane, 800, 600);
-// -------------------  GUI Payroll End ---------------------------------------------
+// -----------------------------  GUI Payroll End ----------------------------------------------------
 	
-// -------------------  GUI Employee Start ---------------------------------------
+// -----------------------------  GUI Employee Start -------------------------------------------------
 		
 		EmpPane = new VBox(20);
 		EmpIdLabel = new Label("ID Number: ");
