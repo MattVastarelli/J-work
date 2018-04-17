@@ -2,7 +2,6 @@
  * Matthew Vastarelli
  * Payroll.Java
  */
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,8 +18,6 @@ import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,14 +26,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 //U: mvast1
 //P: pass
@@ -543,12 +535,6 @@ public class Payroll extends Application {
 		}
 	}
 	//------------------------------------------------------------------------------------------------------
-	//
-	public static void setProps ( Text t, Font f, Color c ){
-        t.setFont(f);
-        t.setFill(c);
-    }
-	//------------------------------------------------------------------------------------------------------
 	//Method to make the GUI 
 	public static void buildGUI(Stage primaryStage) {
 		
@@ -565,6 +551,7 @@ public class Payroll extends Application {
 							
 		snLog = new Scene(loginPane, 750, 500 );
 		
+		primaryStage.setTitle("Emplyoee Database System");
 		primaryStage.setScene(snLog);
 		primaryStage.show();
 		
@@ -581,12 +568,37 @@ public class Payroll extends Application {
 						primaryStage.show();
 					}
 					else {
+						EmpId.setText(currentUser.getIDString());
+						EmpLogin.setText(currentUser.getLoginName());
+						EmpName.setText(currentUser.employeeName);
+						EmpSalary.setText(currentUser.getPayString());
+						EmpDate.setText(currentUser.hiringTime);
 						primaryStage.setScene(empScene); 
 						primaryStage.show();
 					}
 				}
 			}
 		});
+		
+		ObservableList<employee> olist;	
+		t1 = new TableView<employee>();
+		TableColumn idCol = new TableColumn("ID");
+		TableColumn logCol = new TableColumn("Login");
+		TableColumn nameCol = new TableColumn("Name");
+		TableColumn salCol = new TableColumn("Salary");
+		TableColumn datCol = new TableColumn("Hiring Date");
+		t1.getColumns().addAll(idCol, logCol, nameCol, salCol, datCol);
+		
+		idCol.setCellValueFactory(new PropertyValueFactory<employee, String>("id"));
+		logCol.setCellValueFactory(new PropertyValueFactory<employee, String>("login"));
+		nameCol.setCellValueFactory(new PropertyValueFactory<employee, String>("name"));
+		salCol.setCellValueFactory(new PropertyValueFactory<employee, Float>("salary"));
+		datCol.setCellValueFactory(new PropertyValueFactory<employee, Date>("date"));
+		
+		olist = FXCollections.observableArrayList();
+		olist.clear();
+		olist.addAll(employeeList);
+		t1.setItems(olist);
 							
 // -------------------  GUI login End --------------------------------------------			
 // -------------------  GUI New Employee Start ---------------------------------------
@@ -634,12 +646,6 @@ public class Payroll extends Application {
 		        
 			  }
 			});	
-				/*
-				submitNewEmployee.setOnAction(e -> {
-					//Compile and add employee
-					updateTable();
-					st.setScene(bossScene);
-				});*/
 					
 		newEmpPane.getChildren().addAll(newEmpBackButton, newLoginLabel, newLoginField, newPasswordLabel, 
 				newPasswordField, confirmNewPasswordLabel, confirmNewPasswordField, newNameLabel, newNameField, 
@@ -668,11 +674,7 @@ public class Payroll extends Application {
 	        	primaryStage.show();
 		     }
 		  });
-		/*submitChangedEmployee.setOnAction(e -> {
-			// Get employee, make changes
-			updateTable();
-			st.setScene(bossScene);
-		});*/
+	
 		submitChangedEmployee.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent event) {
@@ -686,11 +688,6 @@ public class Payroll extends Application {
 		     }
 		  });
 		
-		/*fireEmployee.setOnAction(e -> {
-			// Get employee, remove from list
-			updateTable();
-			st.setScene(bossScene);
-		});*/
 		fireEmployee.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent event) {
@@ -717,9 +714,7 @@ public class Payroll extends Application {
 		quitButton = new Button ("Exit Program");
 		BlogOutButton = new Button ("Log Out");
 		bossPane = new VBox(20);
-		t1 = new TableView();
-		ObservableList<employee> olist;	
-		
+	
 		newEmpButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent event) {
@@ -763,23 +758,6 @@ public class Payroll extends Application {
 		     }
 		  });
 
-		
-		TableColumn idCol = new TableColumn("ID");
-		TableColumn logCol = new TableColumn("Login");
-		TableColumn nameCol = new TableColumn("Name");
-		TableColumn salCol = new TableColumn("Salary");
-		TableColumn datCol = new TableColumn("Hiring Date");
-		t1.getColumns().addAll(idCol, logCol, nameCol, salCol, datCol);
-		
-		/*idCol.setCellValueFactory(new PropertyValueFactory<employee, String>("id"));
-		logCol.setCellValueFactory(new PropertyValueFactory<employee, String>("login"));
-		nameCol.setCellValueFactory(new PropertyValueFactory<employee, String>("name"));
-		salCol.setCellValueFactory(new PropertyValueFactory<employee, Float>("salary"));
-		datCol.setCellValueFactory(new PropertyValueFactory<employee, Date>("date"));
-		
-		olist = FXCollections.observableArrayList();
-		updateTable();*/
-		
 		bossPane.getChildren().addAll(newEmpButton, changeEmpButton, payrollButton, quitButton, BlogOutButton, t1);
 
 		bossScene = new Scene(bossPane, 800, 600);
@@ -820,12 +798,6 @@ public class Payroll extends Application {
 		EmpQuitButton = new Button("Quit Job");
 		EmpBackButton = new Button("Exit ");
 		ElogOutButton = new Button("Log Out");
-		/*
-		thisEmpId.setText(currentUser.getIDString());
-		thisEmpLogin.setText(currentUser.getLoginName());
-		thisEmpName.setText(currentUser.employeeName);
-		thisEmpSalary.setText(currentUser.getPayString());
-		thisEmpDate.setText(currentUser.hiringTime);*/
 		
 		EmpBackButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
@@ -860,13 +832,6 @@ public class Payroll extends Application {
 		empScene = new Scene (EmpPane, 800, 600);
 		 
 // -------------------  GUI Employee End --------------------------------------------------------------
-	}
-//------------------------------------------------------------------------------------------------------
-//Allows for the table to be changed
-	public static void updateTable() {
-		olist.clear();
-		olist.addAll(employeeList);
-		t1.setItems(olist);
 	}
 //------------------------------------------------------------------------------------------------------
 //Main
