@@ -732,6 +732,7 @@ public class Payroll extends Application {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("log out");
+	        	print();
 	        	primaryStage.setScene(snLog);
 	        	primaryStage.show();
 	        	loggedIn = false;
@@ -823,6 +824,7 @@ public class Payroll extends Application {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("log out");
+	        	print();
 	        	primaryStage.setScene(snLog);
 	        	primaryStage.show();
 	        	loggedIn = false;
