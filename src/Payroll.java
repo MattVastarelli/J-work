@@ -129,30 +129,24 @@ public class Payroll extends Application {
 	private static Label thisEmpDateLabel;
 	private static Label thisEmpDate;
 	private static Button thisEmpQuitButton;
-    // ----------------------------- GUI end ------------------------------------------------------------
-
+    // ----------------------------- GUI end --------------------------------------------------------------
+	// ----------------------------- GUI Input ------------------------------------------------------------
+	private static String username;
+	private static String pass;
 	//-------------------------------------------------------------------------------------------------------
 	//Login to the system 
-	private static void doLogin() {
+	private static boolean doLogin() {
 		
-		String login;
-		String password;
 		loggedIn = false;
 		int i = 0;
 		
-		System.out.print("\nEnter Login name: \n");
-		login = scConsle.next();
-		scConsle.nextLine();
-		System.out.println("Enter password: ");
-		password = scConsle.next();
-
 		//search the employee arrayList
 		for (employee emplyoeeSearch: employeeList) 
 		{
 			//Match on user
-			if (login.equals(emplyoeeSearch.loginName)) {
+			if (username.equals(emplyoeeSearch.loginName)) {
 				//check pass
-				if(passMatch(emplyoeeSearch.getPass(), password)) {
+				if(passMatch(emplyoeeSearch.getPass(), pass)) {
 					System.out.println("Login Successful.");
 					if(emplyoeeSearch.employeeID == 0) {
 						isBoss = true;
@@ -173,7 +167,9 @@ public class Payroll extends Application {
 		}
 		if (!loggedIn) {
 			System.out.println("Login unsuccessful");
+			return false;
 		}
+		return true;
 	}
 	//-------------------------------------------------------------------------------------------------------
 	//Checks to see if passwords match
@@ -601,6 +597,7 @@ public class Payroll extends Application {
 	//------------------------------------------------------------------------------------------------------
 	//Method to make the GUI 
 	public static void buildGUI(Stage primaryStage) {
+		
 // -------------------  GUI Login Start ----------------------------------------------
 		
 		loginPane = new VBox(25);
@@ -609,7 +606,7 @@ public class Payroll extends Application {
 		loginTF = new TextField();
 		pwLabel = new Label("Password:");
 		pwTF = new PasswordField();
-						
+		
 		loginPane.getChildren().addAll(loginLabel, loginTF, pwLabel, pwTF, loginButton);
 							
 		snLog = new Scene(loginPane, 750, 500 );
@@ -621,10 +618,21 @@ public class Payroll extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				System.out.println("Login");
-				primaryStage.setScene(bossScene); //This ust be changed to check output
-				primaryStage.show();
+				username = loginTF.getText();
+				pass = pwTF.getText();
+				
+				if (doLogin()) {
+					if(isBoss) {
+						primaryStage.setScene(bossScene); 
+						primaryStage.show();
+					}
+					else {
+						primaryStage.setScene(empScene); 
+						primaryStage.show();
+					}
 				}
-			});
+			}
+		});
 							
 // -------------------  GUI login End --------------------------------------------			
 // -------------------  GUI New Employee Start ---------------------------------------
