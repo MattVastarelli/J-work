@@ -68,6 +68,7 @@ public class Payroll extends Application {
 	private static VBox loginPane;
 	private static Label loginLabel;
 	private static Button loginButton;
+	private static Button loginQuit;
 	private static TextField loginTF;
 	private static Label pwLabel;
 	private static PasswordField pwTF;
@@ -321,19 +322,10 @@ public class Payroll extends Application {
 	//-------------------------------------------------------------------------------------------------------
 	//Prints out a list of current employees to the boss or the users data if they are not the boss
 	public static void listEmplyoee() {
-		if(isBoss) {
-			System.out.println("Employees in the database");
-			for (employee emplyoeeSearch: employeeList) 
-			{
-	        	System.out.printf(emplyoeeSearch.toString());
-			}
-		}
-		else if(loggedIn) {
-			System.out.println("Your information");
-			System.out.println(currentUser.toString());
-		}
-		else {
-			System.out.println("Error: User is not logged in.");
+		System.out.println("Employees in the database");
+		for (employee emplyoeeSearch: employeeList) 
+		{
+	        System.out.printf(emplyoeeSearch.toString());
 		}
 	}
 	//-------------------------------------------------------------------------------------------------------
@@ -550,13 +542,15 @@ public class Payroll extends Application {
 		loginTF = new TextField();
 		pwLabel = new Label("Password:");
 		pwTF = new PasswordField();
+		loginQuit = new Button("Quit");
 		
+		loginQuit.setPrefWidth(750);
 		loginButton.setPrefWidth(750);
 		loginPane.setSpacing(30);
 		
-		loginPane.getChildren().addAll(loginLabel, loginTF, pwLabel, pwTF, loginButton);
+		loginPane.getChildren().addAll(loginLabel, loginTF, pwLabel, pwTF, loginButton, loginQuit);
 							
-		snLog = new Scene(loginPane, 750, 300 );
+		snLog = new Scene(loginPane, 750, 375 );
 		
 		primaryStage.setTitle("Emplyoee Database System");
 		primaryStage.setScene(snLog);
@@ -571,6 +565,7 @@ public class Payroll extends Application {
 				
 				if (doLogin()) {
 					if(isBoss) {
+						listEmplyoee();
 						primaryStage.setScene(bossScene); 
 						primaryStage.show();
 					}
@@ -585,6 +580,14 @@ public class Payroll extends Application {
 						primaryStage.show();
 					}
 				}
+			}
+		});
+		
+		loginQuit.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				System.out.println("Quit");
+				quit();
 			}
 		});
 							
@@ -615,6 +618,7 @@ public class Payroll extends Application {
 			@Override
 		    public void handle(ActionEvent event) {
 		        System.out.println("Back to boss");
+		        listEmplyoee();
 		        primaryStage.setScene(bossScene);
 		        primaryStage.show();
 			  }
@@ -632,6 +636,7 @@ public class Payroll extends Application {
 				newSalaryType = newSalaryTypeField.getText().toLowerCase();
 				if (newEmplyoee())
 				{
+					listEmplyoee();
 					primaryStage.setScene(bossScene);
 					primaryStage.show();
 				}
@@ -665,6 +670,7 @@ public class Payroll extends Application {
 	        @Override
 	        public void handle(ActionEvent event) {
 	        	System.out.println("Back");
+	        	listEmplyoee();
 	        	primaryStage.setScene(bossScene);
 	        	primaryStage.show();
 		     }
@@ -678,6 +684,7 @@ public class Payroll extends Application {
 	    		changeName = changeNameField.getText();
 	    		changeSalary = changeSalaryField.getText();
 	    		changeData();
+	    		listEmplyoee();
 	        	primaryStage.setScene(bossScene);
 	        	primaryStage.show();
 		     }
@@ -689,6 +696,7 @@ public class Payroll extends Application {
 	        	employeeId = employeeIdField.getText();
 	        	System.out.println("Fire Employee");
 	        	terminateEmplyoee();
+	        	listEmplyoee();
 	        	primaryStage.setScene(bossScene);
 	        	primaryStage.show();
 		     }
