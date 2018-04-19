@@ -2,6 +2,7 @@
  * Matthew Vastarelli
  * Payroll.Java
  */
+import java.awt.Insets;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -76,7 +78,7 @@ public class Payroll extends Application {
 	private static Button payrollButton;
 	private static Button quitButton;
 	private static VBox bossPane;
-	private static TableView t1;
+	private static TableView<employee> t1;
 	private static ObservableList<employee> olist;
 	private static Button BlogOutButton;
 	//New Employee Elements
@@ -126,6 +128,8 @@ public class Payroll extends Application {
 	private static Label EmpSalary;
 	private static Label EmpDateLabel;
 	private static Label EmpDate;
+	private static Label EmpTypeLabel;
+	private static Label EmpType;
 	private static Button EmpQuitButton;
 	private static Button ElogOutButton;
     // ----------------------------- GUI Elements end -----------------------------------------------------
@@ -547,9 +551,12 @@ public class Payroll extends Application {
 		pwLabel = new Label("Password:");
 		pwTF = new PasswordField();
 		
+		loginButton.setPrefWidth(750);
+		loginPane.setSpacing(30);
+		
 		loginPane.getChildren().addAll(loginLabel, loginTF, pwLabel, pwTF, loginButton);
 							
-		snLog = new Scene(loginPane, 750, 500 );
+		snLog = new Scene(loginPane, 750, 300 );
 		
 		primaryStage.setTitle("Emplyoee Database System");
 		primaryStage.setScene(snLog);
@@ -573,6 +580,7 @@ public class Payroll extends Application {
 						EmpName.setText(currentUser.employeeName);
 						EmpSalary.setText(currentUser.getPayString());
 						EmpDate.setText(currentUser.hiringTime);
+						EmpType.setText(currentUser.employmentType);
 						primaryStage.setScene(empScene); 
 						primaryStage.show();
 					}
@@ -599,6 +607,10 @@ public class Payroll extends Application {
 		newSalaryTypeField = new TextField();
 		submitNewEmployee = new Button("Submit");
 		
+		newEmpBackButton.setPrefWidth(800);
+		submitNewEmployee.setPrefWidth(800);
+		
+		
 		newEmpBackButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 		    public void handle(ActionEvent event) {
@@ -623,7 +635,6 @@ public class Payroll extends Application {
 					primaryStage.setScene(bossScene);
 					primaryStage.show();
 				}
-		        
 			  }
 			});	
 					
@@ -645,6 +656,10 @@ public class Payroll extends Application {
 		changeSalaryField = new TextField();
 		submitChangedEmployee = new Button("Submit Changes");
 		fireEmployee = new Button("Fire Employee");
+		
+		changeEmpBackButton.setPrefWidth(800);
+		submitChangedEmployee.setPrefWidth(800);
+		fireEmployee.setPrefWidth(800);
 		
 		changeEmpBackButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
@@ -683,7 +698,7 @@ public class Payroll extends Application {
 				changeNameLabel, changeNameField, changeSalaryLabel, changeSalaryField, 
 				submitChangedEmployee, fireEmployee);
 		
-		changeEmpScene = new Scene(changeEmpPane, 800, 600);
+		changeEmpScene = new Scene(changeEmpPane, 800, 400);
 		
 // ------------------------  GUI Change end ----------------------------------------------------------------
 // ------------------------  GUI Boss Start ----------------------------------------------------------------
@@ -693,7 +708,13 @@ public class Payroll extends Application {
 		payrollButton = new Button ("Create Payroll");
 		quitButton = new Button ("Exit Program");
 		BlogOutButton = new Button ("Log Out");
-		bossPane = new VBox(20);
+		bossPane = new VBox(30);
+		
+		newEmpButton.setPrefWidth(800);
+		changeEmpButton.setPrefWidth(800);
+		payrollButton.setPrefWidth(800);
+		quitButton.setPrefWidth(800);
+		BlogOutButton.setPrefWidth(800);
 		
 		newEmpButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
@@ -738,24 +759,25 @@ public class Payroll extends Application {
 	        	loggedIn = false;
 		     }
 		  });
-
-		ObservableList<employee> olist;	
-		t1 = new TableView<employee>();
+		employee tableEmp; 
 		
+		olist = FXCollections.observableArrayList(employeeList);
+		
+		t1 = new TableView<employee>();
+		//make the columns
 		TableColumn idCol = new TableColumn("ID");
 		TableColumn logCol = new TableColumn("Login");
 		TableColumn nameCol = new TableColumn("Name");
 		TableColumn salCol = new TableColumn("Salary");
-		TableColumn datCol = new TableColumn("Hiring Date");
+		TableColumn datCol = new TableColumn("Hiring Date and Time");
+		//put the data in them
+		//idCol.setCellValueFactory(new PropertyValueFactory(changeName));		
+		
+		
 		t1.getColumns().addAll(idCol, logCol, nameCol, salCol, datCol);
 		
-		idCol.setCellValueFactory(new PropertyValueFactory<employee, String>("id"));
-		logCol.setCellValueFactory(new PropertyValueFactory<employee, String>("login"));
-		nameCol.setCellValueFactory(new PropertyValueFactory<employee, String>("name"));
-		salCol.setCellValueFactory(new PropertyValueFactory<employee, Float>("salary"));
-		datCol.setCellValueFactory(new PropertyValueFactory<employee, Date>("date"));
-		
-		olist = FXCollections.observableArrayList();
+		olist.addAll(employeeList);
+		t1.setItems(olist);
 		
 		/*olist.clear();
 		olist.addAll(employeeList);
@@ -771,7 +793,9 @@ public class Payroll extends Application {
 // ---------------------------  GUI Payroll Start -------------------------------------------------------
 		payrollPane = new VBox(20);
 		okButton = new Button("OK");
-				
+		
+		okButton.setPrefWidth(800);
+		
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override
 	    public void handle(ActionEvent event) {
@@ -798,11 +822,19 @@ public class Payroll extends Application {
 		EmpName = new Label ("");
 		EmpSalaryLabel = new Label("Salary: ");
 		EmpSalary = new Label ("");
-		EmpDateLabel = new Label("Date Hired: ");
+		EmpTypeLabel = new Label("Pay type: ");
+		EmpType = new Label ("");
+		EmpDateLabel = new Label("Date and Time Hired: ");
 		EmpDate = new Label ("");
 		EmpQuitButton = new Button("Quit Job");
 		EmpBackButton = new Button("Exit ");
 		ElogOutButton = new Button("Log Out");
+		
+		EmpBackButton.setPrefWidth(800);
+		EmpQuitButton.setPrefWidth(800);
+		ElogOutButton.setPrefWidth(800);
+		
+		EmpPane.setSpacing(10);
 		
 		EmpBackButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
@@ -831,11 +863,11 @@ public class Payroll extends Application {
 		     }
 		  });
 		
-		EmpPane.getChildren().addAll(EmpBackButton,EmpIdLabel, EmpId, EmpLoginLabel, EmpLogin, 
-				EmpNameLabel, EmpName, EmpSalaryLabel, EmpSalary, EmpDateLabel, EmpDate, 
-				EmpQuitButton, ElogOutButton);
+		EmpPane.getChildren().addAll(EmpIdLabel, EmpId, EmpLoginLabel, EmpLogin, 
+				EmpNameLabel, EmpName, EmpSalaryLabel, EmpSalary, EmpTypeLabel, EmpType, EmpDateLabel, EmpDate, 
+				EmpBackButton,EmpQuitButton, ElogOutButton);
 		
-		empScene = new Scene (EmpPane, 800, 600);
+		empScene = new Scene (EmpPane, 800, 425);
 		 
 // -------------------  GUI Employee End --------------------------------------------------------------
 	}

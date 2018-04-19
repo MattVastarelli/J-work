@@ -23,3 +23,7 @@ hs_err_pid*
 /bin/
 .project
 build.fxbuild
+*.xml
+*.iml
+src/dataFile.txt
+src/payroll.txt
