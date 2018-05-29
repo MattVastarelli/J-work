@@ -1,4 +1,4 @@
-# Database
+# Management System 
 
 ### About 
 This was my final for my Java class the main goal of this project was to implement a GUI based employee database management system. 
