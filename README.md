@@ -6,7 +6,7 @@ This was my final for my Java class the main goal of this project was to impleme
 #### Programing Concepts Used
 * Inheritance
 * Abstraction
-* 
+* Encapsulation
 
 
 ### GUI
