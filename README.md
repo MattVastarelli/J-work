@@ -10,4 +10,7 @@ This was my final for my Java class the main goal of this project was to impleme
 
 
 #### GUI
+##### Login Screen
+![alt text](screenshots/After Emp quitting.PNG)
+##### Data Screen
 ![alt text](screenshots/empscene.PNG)
