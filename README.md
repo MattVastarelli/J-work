@@ -9,8 +9,8 @@ This was my final for my Java class the main goal of this project was to impleme
 * 
 
 
-#### GUI
+### GUI
 ##### Login Screen
-![alt text](screenshots/After Emp quitting.PNG)
+![alt text](screenshots/AfterEmpquitting.PNG)
 ##### Data Screen
 ![alt text](screenshots/empscene.PNG)
